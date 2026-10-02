@@ -1,0 +1,27 @@
+Chart 1: National WASH Trends
+Between 2000 and 2024, basic drinking water access rose from 45.4% to 65.6% (+20.2 pp). Basic sanitation rose from 23.6% to 40.9% (+17.2 pp). Open defecation fell from 16.9% to 5.9% (−11.0 pp). Sanitation still lags water access by 24.7 pp.
+
+Chart 2: Freshwater Withdrawal
+Freshwater withdrawal rose from 7.5% in 2000 to 19.5% in 2022 — still below the 25% water stress threshold but rising steadily.
+
+Chart 3: pH by County
+Average pH ranged from 5.76 (Mandera) to 8.13 (Marsabit). 13 of 14 counties fall within the KEBS range 6.5–8.5.
+
+Chart 4: Conductivity by Source
+Final Effluent had the highest average conductivity at 16446.1 µS/cm (n=21). This exceeds the KEBS limit of 1500 µS/cm.
+
+Chart 5: Athi River Coverage
+Between 2011 and 2014, water coverage moved from 62% to 70% (+8 pp) and sanitation from 67% to 71% (+4 pp).
+
+Chart 6: Sanitation in Athi
+Sanitation: 67.1% served, 32.9% unserved.
+
+Chart 6: Water in Athi
+Water: 65.4% served, 34.6% unserved.
+
+Chart 7: Source Breakdown
+Most tested source: 'Borehole' with 188 tests (38.1% of total).
+
+Chart 8: pH vs Conductivity
+103 of 376 samples exceeded the KEBS conductivity limit of 1500 µS/cm.
+

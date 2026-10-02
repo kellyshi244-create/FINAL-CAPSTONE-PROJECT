@@ -1,0 +1,7 @@
+source,indicator_code,indicator_name,n_years,first_year,last_year
+who_gho,WSH_WATER_BASIC,Basic drinking water,25,2000,2024
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),23,2000,2022
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),25,2000,2024
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),25,2000,2024
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),25,2000,2024
+world_bank,SH.STA.WASH.P5,Mortality from unsafe WASH (per 100k),1,2019,2019

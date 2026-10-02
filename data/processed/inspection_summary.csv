@@ -1,0 +1,5 @@
+file,rows,columns,column_names
+hdx_0_Water_Sanitation_Coverage_of_the_Athi_Ri.csv,8,9,Type_of_Coverage | Date | Total_Pop | Annual_Pop_Growth | Coverage_% | Additional_Pop | Served_Pop | Non_served_Pop | OBJECTID
+hdx_manifest.csv,25,4,dataset_title | resource_name | format | url
+who_water.csv,75,8,source | indicator_code | indicator_name | country | county | year | value | unit
+world_bank_water.csv,99,8,source | indicator_code | indicator_name | country | county | year | value | unit

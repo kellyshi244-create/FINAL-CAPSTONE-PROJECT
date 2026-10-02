@@ -1,0 +1,100 @@
+source,indicator_code,indicator_name,country,county,year,value,unit
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2024,65.5965968528709,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2023,64.7820788557808,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2022,63.96426197234,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2021,63.1426684243247,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2020,62.318211896262,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2019,61.4907638599362,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2018,60.6609028100369,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2017,59.82810250315,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2016,58.9933330324144,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2015,58.1564256572864,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2014,57.3176013376785,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2013,56.4770636530803,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2012,55.6346101711392,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2011,54.7912792060119,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2010,53.9464421270489,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2009,53.100725539255,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2008,52.2521176288935,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2007,51.3998249048434,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2006,50.5448296064454,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2005,49.6872335728162,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2004,48.8271492189302,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2003,47.96372108533,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2002,47.0979850578154,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2001,46.2300505152725,%
+world_bank,SH.H2O.BASW.ZS,Basic drinking water services (% pop),Kenya,National,2000,45.3600224507061,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2024,40.8849654611543,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2023,40.1703366344741,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2022,39.454252565811,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2021,38.7368777065186,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2020,38.018340896347,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2019,37.298797647533,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2018,36.5783889502292,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2017,35.857250498731,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2016,35.1355349703251,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2015,34.4133695043635,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2014,33.6908976254492,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2013,32.9682462912978,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2012,32.2455260120869,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2011,31.5229174481557,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2010,30.8004947681643,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2009,30.0784132028819,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2008,29.3565994040011,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2007,28.6350439627237,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2006,27.9138955031129,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2005,27.1932269454509,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2004,26.4731149422539,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2003,25.7535178867465,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2002,25.0346081207823,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2001,24.3164597238105,%
+world_bank,SH.STA.BASS.ZS,Basic sanitation services (% pop),Kenya,National,2000,23.6473801064419,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2024,5.9142602628714,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2023,6.33958683996232,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2022,6.76853753785675,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2021,7.20114357599299,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2020,7.63710764754706,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2019,8.0763845331293,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2018,8.51874533784815,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2017,8.96425699680817,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2016,9.41258782271518,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2015,9.86370693819181,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2014,10.3174893608377,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2013,10.773803024215,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2012,11.232647100123,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2011,11.6936464690239,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2010,12.1569271728644,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2009,12.6222355819892,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2008,13.0901544212364,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2007,13.5609136165485,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2006,14.0341723368369,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2005,14.5098660863416,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2004,14.9879313697485,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2003,15.4686312623508,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2002,15.9515900786266,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2001,16.4367448305956,%
+world_bank,SH.STA.ODFC.ZS,Open defecation (% pop),Kenya,National,2000,16.9240313729931,%
+world_bank,SH.STA.WASH.P5,Mortality from unsafe WASH (per 100k),Kenya,National,2019,29.0,per_100k
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2022,19.4782608695652,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2021,19.4782608695652,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2020,19.4782608695652,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2019,19.4782608695652,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2018,19.4782608695652,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2017,19.4782608695652,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2016,19.4782608695652,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2015,15.5555555555556,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2014,15.5536231884058,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2013,15.551690821256,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2012,15.5497584541063,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2011,15.5478260869565,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2010,15.5458937198068,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2009,14.9261559710145,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2008,14.3064182173913,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2007,13.686680468599,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2006,13.0669427198068,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2005,12.4472049710145,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2004,11.8274672173913,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2003,11.207729468599,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2002,9.98377307246377,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2001,8.75981667149759,%
+world_bank,ER.H2O.FWTL.ZS,Freshwater withdrawal (% of internal resources),Kenya,National,2000,7.53586027536232,%
