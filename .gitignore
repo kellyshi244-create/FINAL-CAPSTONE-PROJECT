@@ -5,3 +5,9 @@ __pycache__/
 venv/
 .ipynb_checkpoints/
 .DS_Store
+# Virtual environments
+prj/
+venv/
+.venv/
+env/
+ENV/
