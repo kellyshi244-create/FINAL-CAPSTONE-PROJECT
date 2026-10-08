@@ -46,7 +46,7 @@ if page == "🏠 Overview":
     A household can be counted as "served" while the water flowing from its tap or borehole
     fails basic chemical standards. This project analyzes **493 water samples** collected by
     the **Kenya Water Institute (KEWI)** in 2011–2012. Each sample was tested for pH,
-    conductivity, total dissolved solids (TDS), alkalinity, and colour.
+    conductivity, and total dissolved solids (TDS).
 
     **Note on time frame:** The dataset spans approximately 6 months (late 2011 to early 2012).
     This is a **cross-sectional snapshot**, not a long-term time series. The strength of this
@@ -130,7 +130,6 @@ elif page == "📊 Visualizations":
     st.markdown("*pH measures how acidic or alkaline water is. KEBS range: 6.5 – 8.5.*")
     st.markdown("---")
 
-    # Chart 1
     st.markdown("## Chart 1 — pH Distribution")
     path = os.path.join(chart_dir, "01_ph_distribution.png")
     if os.path.exists(path):
@@ -140,7 +139,6 @@ elif page == "📊 Visualizations":
     st.markdown("**Why:** Geology (limestone raises pH, granite lowers it), industrial effluent, agricultural runoff.")
     st.markdown("---")
 
-    # Chart 2
     st.markdown("## Chart 2 — pH by Water Source Type")
     path = os.path.join(chart_dir, "02_ph_by_source.png")
     if os.path.exists(path):
@@ -157,7 +155,6 @@ elif page == "📊 Visualizations":
     st.markdown("**Why:** Rain is naturally distilled and clean. Effluent carries chemicals from treatment processes. Rivers vary with runoff.")
     st.markdown("---")
 
-    # Chart 3
     st.markdown("## Chart 3 — Average pH by County")
     path = os.path.join(chart_dir, "03_ph_by_county.png")
     if os.path.exists(path):
@@ -177,7 +174,6 @@ elif page == "📊 Visualizations":
     st.markdown("*Conductivity measures dissolved salts and minerals. KEBS limit: ≤2500 µS/cm.*")
     st.markdown("---")
 
-    # Chart 4
     st.markdown("## Chart 4 — Conductivity Distribution")
     path = os.path.join(chart_dir, "04_conductivity_distribution.png")
     if os.path.exists(path):
@@ -187,7 +183,6 @@ elif page == "📊 Visualizations":
     st.markdown("**Why:** Lower conductivity = fewer dissolved minerals = cleaner water.")
     st.markdown("---")
 
-    # Chart 5
     st.markdown("## Chart 5 — Conductivity by Water Source Type")
     path = os.path.join(chart_dir, "05_conductivity_by_source.png")
     if os.path.exists(path):
@@ -198,7 +193,6 @@ elif page == "📊 Visualizations":
     st.markdown("**Why:** Effluent collects dissolved chemicals from homes and industry. Rain is naturally low in dissolved ions.")
     st.markdown("---")
 
-    # Chart 6
     st.markdown("## Chart 6 — Average Conductivity by County")
     path = os.path.join(chart_dir, "06_conductivity_by_county.png")
     if os.path.exists(path):
@@ -223,7 +217,6 @@ elif page == "📊 Visualizations":
     st.markdown("*TDS measures the total weight of everything dissolved in water — salts, minerals, metals. KEBS limit: ≤1000 mg/L.*")
     st.markdown("---")
 
-    # Chart 7
     st.markdown("## Chart 7 — TDS Distribution")
     path = os.path.join(chart_dir, "07_tds_distribution.png")
     if os.path.exists(path):
@@ -244,12 +237,11 @@ elif page == "📊 Visualizations":
     st.markdown("# 🔗 Section D — Relationships Between Parameters")
     st.markdown("---")
 
-    # Chart 8
-    st.markdown("## Chart 8 — Correlation Between Parameters")
+    st.markdown("## Chart 8 — Correlation Between pH, Conductivity, and TDS")
     path = os.path.join(chart_dir, "08_correlation_heatmap.png")
     if os.path.exists(path):
         st.image(Image.open(path), use_container_width=True)
-    st.markdown("**What it shows:** How strongly each parameter is related to the others.")
+    st.markdown("**What it shows:** How strongly pH, conductivity, and TDS are related to each other.")
     st.markdown("""
     **How to read it:**
     - **+1.0** = perfect positive relationship (both go up together)
@@ -258,7 +250,7 @@ elif page == "📊 Visualizations":
     """)
     st.markdown("**Key insight:** Conductivity and TDS show a strong positive correlation — they measure essentially the same thing (dissolved ion content).")
     st.markdown("""
-    **What does this mean for water quality?**
+    **What this means for water quality?**
     - Strong correlation means: **if you measure one, you know the other.** Testing becomes cheaper.
     - Weak correlation between other pairs means: **each parameter must be tested separately.** You cannot predict pH from conductivity.
     """)
@@ -334,7 +326,7 @@ elif page == "⚠️ Limitations":
     ### Data Limitations
     - **Snapshot, not time series** — Only 6 months of data (late 2011 to early 2012).
     - **Concentrated coverage** — Testing concentrated in a few counties.
-    - **Partial test panels** — Conductivity, TDS, and alkalinity tested on only ~25% of samples.
+    - **Partial test panels** — Conductivity and TDS tested on only ~25% of samples.
     - **No microbial data** — E. coli and coliform not measured.
     - **No heavy metals** — Lead, arsenic, and chromium not in dataset.
     - **Historical** — 2011–2012 data may not reflect current conditions.
@@ -384,8 +376,8 @@ elif page == "✅ Conclusion":
 
     st.success("""
     **2 — Standardize test panels.**
-    Every sample should be tested for at least pH, conductivity, TDS, and colour. The current
-    dataset shows inconsistent panels, making comparisons difficult.
+    Every sample should be tested for at least pH, conductivity, and TDS. The current dataset
+    shows inconsistent panels, making comparisons difficult.
     """)
 
     st.success("""
