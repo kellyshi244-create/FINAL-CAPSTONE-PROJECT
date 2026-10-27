@@ -759,7 +759,8 @@ elif page == "✅ Conclusion":
 # ============================================================
 st.sidebar.markdown("---")
 st.sidebar.caption("Built with Python + Streamlit")
-#SECOND BACKUP
+
+#####SECOND BACKUP ##############
 """
 Kenya Water Quality Analysis — Streamlit App
 Run: streamlit run app.py
@@ -1204,5 +1205,2572 @@ elif page == "✅ Conclusion":
 # ============================================================
 # FOOTER
 # ============================================================
+st.sidebar.markdown("---")
+st.sidebar.caption("Built with Python + Streamlit")
+########ANOTHER VERSION ##########
+"""
+Kenya Water Quality Analysis — Streamlit App
+Run: streamlit run app.py
+"""
+
+import os
+import sqlite3
+import streamlit as st
+import pandas as pd
+from PIL import Image
+
+st.set_page_config(
+    page_title="Kenya Water Quality Analysis",
+    page_icon="💧",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+st.sidebar.title("💧 Kenya Water Quality")
+st.sidebar.markdown("### Navigation")
+page = st.sidebar.radio(
+    "Go to:",
+    ["🏠 Overview", "📊 Visualizations", "🔍 Data Explorer",
+     "📖 Methodology", "⚠️ Limitations", "✅ Conclusion"]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("**About**")
+st.sidebar.info("Analysis of 493 water samples from the Kenya Water Institute (2011–2012).")
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Standards used**")
+st.sidebar.markdown("- KEBS KS 459-1\n- WHO Guidelines")
+
+# ============================================================
+# PAGE 1 — OVERVIEW
+# ============================================================
+if page == "🏠 Overview":
+    st.title("💧 Kenya Water Quality Analysis")
+    st.markdown("### 493 lab samples · 2011–2012")
+    st.markdown("---")
+
+    st.markdown("## 📖 Project Description")
+    st.markdown("""
+    **Clean water is a public health priority in Kenya — yet access does not guarantee safety.**
+
+    A household can be counted as "served" while the water flowing from its tap or borehole
+    fails basic chemical standards. This project analyzes **493 water samples** collected by
+    the **Kenya Water Institute (KEWI)** in 2011–2012. Each sample was tested for pH,
+    conductivity, and total dissolved solids (TDS).
+
+    **Note on time frame:** The dataset spans approximately 6 months (late 2011 to early 2012).
+    This is a **cross-sectional snapshot**, not a long-term time series. The strength of this
+    dataset is **comparison across geography and sources**, not trend analysis.
+    """)
+
+    st.markdown("---")
+    st.markdown("## ❗ Problem Statement")
+    st.markdown("""
+    **Kenya's water safety is unverified at scale.**
+
+    - Only a small fraction of Kenya's 47 counties have continuous water quality monitoring
+    - Where water is available, chemical safety is rarely tested
+    - Where testing happens, results sit in institutional spreadsheets that never reach policymakers
+
+    Contaminated water causes diarrhoeal disease, heavy-metal poisoning, and long-term health
+    damage. The 493 KEWI samples are one of the few available snapshots of Kenya's actual water
+    chemistry.
+    """)
+
+    st.markdown("---")
+    st.markdown("## 🎯 Objectives")
+    st.markdown("""
+    **General:** To assess water quality across Kenya using laboratory test data.
+
+    **Specific:**
+    1. Examine the distribution of each water quality parameter (pH, conductivity, TDS)
+    2. Compare water quality across water source types
+    3. Identify county-level patterns in water quality
+    4. Analyze correlations between parameters
+    """)
+
+    st.markdown("---")
+    st.markdown("## ❓ Research Questions")
+    st.markdown("""
+    1. How are pH, conductivity, and TDS distributed across tested samples?
+    2. How does water quality vary by source type (borehole, rain, effluent)?
+    3. Which counties show unusual patterns in pH or conductivity?
+    4. Do water quality parameters correlate — can one predict another?
+    """)
+
+    st.markdown("---")
+    st.markdown("## 👥 Target Audience")
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown("#### 🏛️ Policymakers")
+        st.markdown("""
+        - Ministry of Water
+        - County governments
+        - NEMA, WRA
+        """)
+    with col2:
+        st.markdown("#### 🌍 Development Organizations")
+        st.markdown("""
+        - UNICEF, WHO
+        - Water.org
+        - Local WRUAs
+        """)
+    with col3:
+        st.markdown("#### 🎓 Researchers")
+        st.markdown("""
+        - Environmental science
+        - Public health
+        - Water chemistry
+        """)
+
+# ============================================================
+# PAGE 2 — VISUALIZATIONS
+# ============================================================
+elif page == "📊 Visualizations":
+    st.title("📊 Visualizations & Findings")
+    st.markdown("The analysis is organized by **aspect of water quality** — not by ranking them. "
+                "Each aspect is shown in three views: distribution, by source, by county.")
+    st.markdown("---")
+
+    chart_dir = "output/charts"
+
+    # ---------------- SECTION A: pH ----------------
+    st.markdown("# 🧪 Section A — pH")
+    st.markdown("*pH measures how acidic or alkaline water is. KEBS range: 6.5 – 8.5.*")
+    st.markdown("---")
+
+    st.markdown("## Chart 1 — pH Distribution")
+    path = os.path.join(chart_dir, "01_ph_distribution.png")
+    if os.path.exists(path):
+        st.image(Image.open(path), use_container_width=True)
+    st.markdown("**What it shows:** How many samples fall at each pH value.")
+    st.markdown("**Key insight:** Most samples cluster near neutral (pH 7). A few fall outside the KEBS range.")
+    st.markdown("**Why:** Geology (limestone raises pH, granite lowers it), industrial effluent, agricultural runoff.")
+    st.markdown("---")
+
+    st.markdown("## Chart 2 — pH by Water Source Type")
+    path = os.path.join(chart_dir, "02_ph_by_source.png")
+    if os.path.exists(path):
+        st.image(Image.open(path), use_container_width=True)
+    st.markdown("**What it shows:** Box plot of pH grouped by source type.")
+    st.markdown("""
+    **How to read a box plot:**
+    - The **box** = the middle 50% of samples
+    - The **line inside the box** = median (middle value)
+    - The **whiskers** = the full range of most samples
+    - **Dots outside** = unusual values (outliers)
+    """)
+    st.markdown("**Key insight:** Rain and borehole water cluster tightly near neutral. Effluent and river water vary more.")
+    st.markdown("**Why:** Rain is naturally distilled and clean. Effluent carries chemicals from treatment processes. Rivers vary with runoff.")
+    st.markdown("---")
+
+    st.markdown("## Chart 3 — Average pH by County")
+    path = os.path.join(chart_dir, "03_ph_by_county.png")
+    if os.path.exists(path):
+        st.image(Image.open(path), use_container_width=True)
+    st.markdown("**What it shows:** Average pH for each county with at least 5 samples.")
+    st.markdown("**Key insight:** Most counties cluster near neutral pH. A few outliers sit below or above the KEBS range.")
+    st.markdown("""
+    **Why Mandera stands out with high pH:** Mandera sits on limestone-rich geological formations
+    in Kenya's arid northeast. Water passing through these rocks dissolves alkaline minerals
+    (calcium carbonate), raising pH. The dry climate concentrates these minerals further through
+    evaporation. This is a **natural, geological cause** — not human pollution.
+    """)
+    st.markdown("---")
+
+    # ---------------- SECTION B: Conductivity ----------------
+    st.markdown("# ⚡ Section B — Conductivity")
+    st.markdown("*Conductivity measures dissolved salts and minerals. KEBS limit: ≤2500 µS/cm.*")
+    st.markdown("---")
+
+    st.markdown("## Chart 4 — Conductivity Distribution")
+    path = os.path.join(chart_dir, "04_conductivity_distribution.png")
+    if os.path.exists(path):
+        st.image(Image.open(path), use_container_width=True)
+    st.markdown("**What it shows:** How many samples fall at each conductivity level.")
+    st.markdown("**Key insight:** Most samples sit well below the KEBS limit.")
+    st.markdown("**Why:** Lower conductivity = fewer dissolved minerals = cleaner water.")
+    st.markdown("---")
+
+    st.markdown("## Chart 5 — Conductivity by Water Source Type")
+    path = os.path.join(chart_dir, "05_conductivity_by_source.png")
+    if os.path.exists(path):
+        st.image(Image.open(path), use_container_width=True)
+    st.markdown("**What it shows:** Average conductivity for each source type.")
+    st.markdown("**What is effluent?** Treated wastewater released from sewage treatment plants or factories — the 'end of pipe' after processing.")
+    st.markdown("**Key insight:** Effluent has the highest conductivity. Rain water has the lowest.")
+    st.markdown("**Why:** Effluent collects dissolved chemicals from homes and industry. Rain is naturally low in dissolved ions.")
+    st.markdown("---")
+
+    st.markdown("## Chart 6 — Average Conductivity by County")
+    path = os.path.join(chart_dir, "06_conductivity_by_county.png")
+    if os.path.exists(path):
+        st.image(Image.open(path), use_container_width=True)
+    st.markdown("**What it shows:** Average conductivity for each county with at least 5 samples.")
+    st.markdown("""
+    **Why arid and semi-arid counties stand out:**
+    - **Evaporation** — Dry heat concentrates salts in groundwater
+    - **Low rainfall** — Less dilution of dissolved minerals
+    - **Geology** — Machakos and Kajiado sit on metamorphic rock belts rich in soluble ions
+    - **Long residence time** — Water stays in aquifers longer, dissolving more minerals
+
+    **Does this affect water quality?** Yes, negatively. High conductivity means:
+    - Salty or metallic taste
+    - Possible long-term health effects (hypertension)
+    - Requires treatment (reverse osmosis) before drinking
+    """)
+    st.markdown("---")
+
+    # ---------------- SECTION C: TDS ----------------
+    st.markdown("# 💧 Section C — Total Dissolved Solids (TDS)")
+    st.markdown("*TDS measures the total weight of everything dissolved in water — salts, minerals, metals. KEBS limit: ≤1000 mg/L.*")
+    st.markdown("---")
+
+    st.markdown("## Chart 7 — TDS Distribution")
+    path = os.path.join(chart_dir, "07_tds_distribution.png")
+    if os.path.exists(path):
+        st.image(Image.open(path), use_container_width=True)
+    st.markdown("**What it shows:** How many samples fall at each TDS level.")
+    st.markdown("""
+    **How to read TDS levels:**
+    - **< 300 mg/L** → Excellent — clean, fresh-tasting
+    - **300 – 600** → Good — typical drinking water
+    - **600 – 900** → Fair — noticeable mineral taste
+    - **> 1000** → Fails KEBS standard
+    """)
+    st.markdown("**Key insight:** Most samples fall below the KEBS limit, indicating acceptable mineral content.")
+    st.markdown("**Why:** Low rainfall (less dilution), long water-rock contact time, and industrial/agricultural runoff all raise TDS.")
+    st.markdown("---")
+
+    # ---------------- SECTION D: Relationships ----------------
+    st.markdown("# 🔗 Section D — Relationships Between Parameters")
+    st.markdown("---")
+
+    st.markdown("## Chart 8 — Correlation Between pH, Conductivity, and TDS")
+    path = os.path.join(chart_dir, "08_correlation_heatmap.png")
+    if os.path.exists(path):
+        st.image(Image.open(path), use_container_width=True)
+    st.markdown("**What it shows:** How strongly pH, conductivity, and TDS are related to each other.")
+    st.markdown("""
+    **How to read it:**
+    - **+1.0** = perfect positive relationship (both go up together)
+    - **0.0** = no relationship
+    - **−1.0** = perfect negative relationship (one goes up, other goes down)
+    """)
+    st.markdown("**Key insight:** Conductivity and TDS show a strong positive correlation — they measure essentially the same thing (dissolved ion content).")
+    st.markdown("""
+    **What this means for water quality?**
+    - Strong correlation means: **if you measure one, you know the other.** Testing becomes cheaper.
+    - Weak correlation between other pairs means: **each parameter must be tested separately.** You cannot predict pH from conductivity.
+    """)
+
+# ============================================================
+# PAGE 3 — DATA EXPLORER
+# ============================================================
+elif page == "🔍 Data Explorer":
+    st.title("🔍 Data Explorer")
+    st.markdown("Explore the 493 KEWI water samples. Empty cells mean the test was "
+                "**not performed on that sample** — not a data error.")
+
+    conn = sqlite3.connect("data/processed/kenya_water.db")
+    df = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+
+    st.markdown(f"**{len(df)} rows · {len(df.columns)} columns**")
+
+    df_display = df.copy().fillna("Not Tested")
+    n_rows = st.slider("Rows to display:", 10, 493, 50, 10)
+    st.dataframe(df_display.head(n_rows), use_container_width=True)
+
+    st.info("""
+    💡 **Why 'Not Tested'?** KEWI ran different test panels on different samples.
+    A sample tested only for pH will show 'Not Tested' in conductivity, TDS, and alkalinity.
+    These nulls are preserved and not filled with zeros — that would distort every average.
+    """)
+
+# ============================================================
+# PAGE 4 — METHODOLOGY
+# ============================================================
+elif page == "📖 Methodology":
+    st.title("📖 Methodology")
+
+    st.markdown("""
+    ### Phase 1 — Data Loading
+    - Loaded 493 samples from `kenya_water.db` → `kewi_water_tests`
+
+    ### Phase 2 — Cleaning
+    - Converted text-stored numbers to numeric
+    - Standardized county names — mapped to Kenya's 47 official counties
+    - Removed non-Kenyan entries and old provincial names
+    - Preserved nulls — they mean "test not performed", not zero
+
+    ### Phase 3 — Analysis
+    - Examined distribution of each parameter (pH, conductivity, TDS)
+    - Compared values across source types
+    - Grouped by county (n ≥ 5 samples for statistical reliability)
+    - Ran correlation analysis between parameters
+
+    ### Phase 4 — Visualization
+    - Generated 8 charts organized by aspect
+    - Deployed as this Streamlit app
+    """)
+
+    st.markdown("### 🛠️ Technology Stack")
+    st.markdown("""
+    - **Python 3.12** — core language
+    - **pandas / numpy** — data processing
+    - **SQLite** — database storage
+    - **matplotlib / seaborn** — charts
+    - **Streamlit** — web deployment
+    - **Git / GitHub** — version control
+    """)
+
+# ============================================================
+# PAGE 5 — LIMITATIONS
+# ============================================================
+elif page == "⚠️ Limitations":
+    st.title("⚠️ Limitations")
+
+    st.markdown("""
+    ### Data Limitations
+    - **Snapshot, not time series** — Only 6 months of data (late 2011 to early 2012).
+    - **Concentrated coverage** — Testing concentrated in a few counties.
+    - **Partial test panels** — Conductivity and TDS tested on only ~25% of samples.
+    - **No microbial data** — E. coli and coliform not measured.
+    - **No heavy metals** — Lead, arsenic, and chromium not in dataset.
+    - **Historical** — 2011–2012 data may not reflect current conditions.
+
+    ### Methodological Limitations
+    - Small county sample sizes reduce statistical reliability.
+    - Correlations are described, not proven causal.
+    - Counties with fewer than 5 samples are excluded from county-level charts.
+    """)
+
+# ============================================================
+# PAGE 6 — CONCLUSION
+# ============================================================
+elif page == "✅ Conclusion":
+    st.title("✅ Conclusion")
+    st.markdown("---")
+
+    st.markdown("""
+    ### What This Analysis Reveals
+
+    The 493 KEWI samples show that Kenya's water quality is **mixed**.
+
+    - **pH** — Most samples are within the KEBS safe range (6.5–8.5). A minority fall outside.
+    - **Conductivity** — Most samples are well below the KEBS limit. Some arid-zone counties
+      show higher values due to geology and evaporation.
+    - **TDS** — Most samples fall below the 1000 mg/L limit.
+    - **Sources matter** — Effluent and river samples are consistently more variable than rain
+      and borehole samples.
+    - **Conductivity and TDS are linked** — measuring one tells you the other.
+
+    ### What Remains Uncertain
+
+    - Sample sizes vary widely by county. Some counties have only a handful of tests.
+    - The dataset is 12+ years old.
+    - Microbial safety (E. coli, coliform) is not measured.
+    - Heavy metals (lead, arsenic) are not tested.
+    """)
+
+    st.markdown("---")
+    st.markdown("## 💡 Recommendations")
+
+    st.success("""
+    **1 — Expand testing coverage.**
+    Testing is concentrated in a few counties. Every county should have at least annual water
+    quality testing to build a national picture.
+    """)
+
+    st.success("""
+    **2 — Standardize test panels.**
+    Every sample should be tested for at least pH, conductivity, and TDS. The current dataset
+    shows inconsistent panels, making comparisons difficult.
+    """)
+
+    st.success("""
+    **3 — Add microbial and heavy-metal testing.**
+    Chemical parameters alone do not tell the full safety story. E. coli and heavy metals are
+    critical for public health assessment.
+    """)
+
+    st.success("""
+    **4 — Publish water quality data openly.**
+    Institutions like KEWI collect valuable data. Publishing it in a standard, accessible format
+    would let researchers, policymakers, and the public see the same picture.
+    """)
+
+    st.markdown("---")
+    st.markdown("""
+    ### Final Thought
+
+    This project does not solve Kenya's water crisis. It shows how one snapshot of data
+    can be analyzed to reveal what is known — and, just as importantly, what is not.
+    """)
+
+# ============================================================
+# FOOTER
+# ============================================================
+st.sidebar.markdown("---")
+st.sidebar.caption("Built with Python + Streamlit")
+#####################################################
+#########################################################
+#ANOTHER BACK UP
+#########################################################################################
+#############################################################################
+"""
+Kenya Water Quality Analysis — Streamlit App
+Run: streamlit run app.py
+"""
+
+import os
+import sqlite3
+import streamlit as st
+import pandas as pd
+import json
+import difflib
+
+# Interactive charts + choropleth
+import plotly.express as px
+import plotly.graph_objects as go
+
+st.set_page_config(
+    page_title="Kenya Water Quality Analysis",
+    page_icon="💧",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+st.sidebar.title("💧 Kenya Water Quality")
+st.sidebar.markdown("### Navigation")
+page = st.sidebar.radio(
+    "Go to:",
+    ["🏠 Overview", "🗺️ County Map", "📊 Visualizations", "🔍 Data Explorer",
+     "📖 Methodology", "⚠️ Limitations", "✅ Conclusion"]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("**About**")
+st.sidebar.info("Analysis of 493 water samples from the Kenya Water Institute (2011–2012).")
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Standards used**")
+st.sidebar.markdown("- KEBS KS 459-1\n- WHO Guidelines")
+
+# ============================================================
+# Cached data loader
+# ============================================================
+DB_PATH = "data/processed/kenya_water.db"
+GEOJSON_PATH = "data/processed/kenya_counties.geojson"
+
+@st.cache_data
+def load_water_df():
+    conn = sqlite3.connect(DB_PATH)
+    d = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+    d.columns = [c.strip().lower().replace(" ", "_") for c in d.columns]
+    return d
+
+@st.cache_data
+def load_geojson():
+    if os.path.exists(GEOJSON_PATH):
+        try:
+            with open(GEOJSON_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            st.error(f"Error reading GeoJSON file. ({e})")
+            return None
+    else:
+        st.error(f"GeoJSON file not found at `{GEOJSON_PATH}`.")
+        return None
+
+# ============================================================
+# PAGE 1 — OVERVIEW
+# ============================================================
+if page == "🏠 Overview":
+    st.title("💧 Kenya Water Quality Analysis")
+    st.markdown("### 493 lab samples · 2011–2012")
+    st.markdown("---")
+
+    st.markdown("## 📖 Project Description")
+    st.markdown("""
+    **Clean water is a public health priority in Kenya — yet access does not guarantee safety.**
+
+    A household can be counted as "served" while the water flowing from its tap or borehole
+    fails basic chemical standards. This project analyzes **493 water samples** collected by
+    the **Kenya Water Institute (KEWI)** in 2011–2012. Each sample was tested for pH,
+    conductivity, and total dissolved solids (TDS).
+
+    **Note on time frame:** The dataset spans approximately 6 months (late 2011 to early 2012).
+    This is a **cross-sectional snapshot**, not a long-term time series. The strength of this
+    dataset is **comparison across geography and sources**, not trend analysis.
+
+    ### 📏 Benchmark Standards (KEBS)
+    This research evaluates water safety by comparing the KEWI samples against the **Kenya Bureau of Standards (KEBS)** limits for potable water (referencing KS EAS 12:2014 / KS 459-1):
+    *   **pH:** **6.50 – 8.50**
+    *   **Conductivity:** **2500.00 µS/cm** (Max)
+    *   **Total Dissolved Solids (TDS):** **1000.00 mg/L** (Max)
+
+    The **Risk Score** on the County Map is calculated based on how far a county's average deviates from these exact thresholds.
+    """)
+
+    st.markdown("---")
+    st.markdown("## ❗ Problem Statement")
+    st.markdown("""
+    **Kenya's water safety is unverified at scale.**
+
+    - Only a small fraction of Kenya's 47 counties have continuous water quality monitoring
+    - Where water is available, chemical safety is rarely tested
+    - Where testing happens, results sit in institutional spreadsheets that never reach policymakers
+
+    Contaminated water causes diarrhoeal disease, heavy-metal poisoning, and long-term health
+    damage. The 493 KEWI samples are one of the few available snapshots of Kenya's actual water
+    chemistry.
+    """)
+
+    st.markdown("---")
+    st.markdown("## 🎯 Objectives")
+    st.markdown("""
+    **General:** To assess water quality across Kenya using laboratory test data.
+
+    **Specific:**
+    1. Examine the distribution of each water quality parameter (pH, conductivity, TDS)
+    2. Compare water quality across water source types
+    3. Identify county-level patterns in water quality
+    4. Analyze correlations between parameters
+    """)
+
+    st.markdown("---")
+    st.markdown("## ❓ Research Questions")
+    st.markdown("""
+    1. How are pH, conductivity, and TDS distributed across tested samples?
+    2. How does water quality vary by source type (borehole, rain, effluent)?
+    3. Which counties show unusual patterns in pH or conductivity?
+    4. Do water quality parameters correlate — can one predict another?
+    """)
+
+    st.markdown("---")
+    st.markdown("## 👥 Target Audience")
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown("#### 🏛️ Policymakers")
+        st.markdown("""
+        - Ministry of Water
+        - County governments
+        - NEMA, WRA
+        """)
+    with col2:
+        st.markdown("#### 🌍 Development Organizations")
+        st.markdown("""
+        - UNICEF, WHO
+        - Water.org
+        - Local WRUAs
+        """)
+    with col3:
+        st.markdown("#### 🎓 Researchers")
+        st.markdown("""
+        - Environmental science
+        - Public health
+        - Water chemistry
+        """)
+
+# ============================================================
+# PAGE 2 — COUNTY MAP (Bubble Map + Findings)
+# ============================================================
+elif page == "🗺️ County Map":
+    st.title("🗺️ County-Level Water Quality Map")
+    st.markdown(
+        "**Bubble Map:** Each bubble represents a county. The **size** of the bubble shows the Combined Risk Score "
+        "(bigger = higher risk). The **color** shows the Main Driver of that risk. Hover over any bubble to see the exact values."
+    )
+    st.markdown("---")
+
+    df = load_water_df()
+    
+    ph_col = "ph"
+    cond_col = "conductivity?s/cm"
+    tds_col = "total_dissolved_solids"
+    county_col = "county"
+
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    # KEBS Constants
+    KEBS_PH_MIN = 6.5
+    KEBS_PH_MAX = 8.5
+    KEBS_COND = 2500.0
+    KEBS_TDS = 1000.0
+
+    def calc_ph_risk(val):
+        if pd.isna(val): return 0
+        if val < KEBS_PH_MIN: return (KEBS_PH_MIN - val) / KEBS_PH_MIN
+        if val > KEBS_PH_MAX: return (val - KEBS_PH_MAX) / KEBS_PH_MAX
+        return 0 
+
+    geo = load_geojson()
+    if geo is None:
+        st.stop()
+
+    geo_names = [feat["properties"].get("adm1_name", "").upper().strip() for feat in geo["features"]]
+    
+    def clean_name(name):
+        name = str(name).upper().replace(" COUNTY", "").replace(" CITY", "").replace(" TOWN", "").strip()
+        return name
+
+    df["clean_county"] = df[county_col].apply(clean_name)
+    
+    # Keep only counties that actually exist in the GeoJSON
+    valid_counties = set(geo_names)
+    df = df[df["clean_county"].isin(valid_counties)]
+
+    # Group by the cleaned name
+    agg = (df.groupby("clean_county")
+             .agg(ph=(ph_col, "mean"),
+                  conductivity=(cond_col, "mean"),
+                  tds=(tds_col, "mean"),
+                  samples=(ph_col, "count"))
+             .reset_index())
+
+    # Calculate risks
+    agg["ph_risk"] = agg["ph"].apply(calc_ph_risk)
+    agg["cond_risk"] = (agg["conductivity"] / KEBS_COND).clip(lower=0)
+    agg["tds_risk"] = (agg["tds"] / KEBS_TDS).clip(lower=0)
+
+    agg["combined_risk"] = (agg["ph_risk"] + agg["cond_risk"] + agg["tds_risk"]) / 3.0
+
+    def get_primary_driver(row):
+        if pd.isna(row["ph_risk"]): return "Insufficient Data"
+        risks = {"Conductivity": row["cond_risk"], "TDS": row["tds_risk"], "pH": row["ph_risk"]}
+        if max(risks.values()) == 0: return "Safe"
+        return max(risks, key=risks.get)
+
+    agg["Main Driver"] = agg.apply(get_primary_driver, axis=1)
+
+    # Get Centroids for Bubble Map
+    lon_pts, lat_pts = [], []
+    for clean_name_val in agg["clean_county"]:
+        found = False
+        for feat in geo["features"]:
+            if feat["properties"]["adm1_name"].upper().strip() == clean_name_val:
+                geom = feat["geometry"]
+                if geom["type"] == "Polygon":
+                    coords = geom["coordinates"][0]
+                elif geom["type"] == "MultiPolygon":
+                    coords = geom["coordinates"][0][0]
+                else:
+                    continue
+                xs = [p[0] for p in coords]
+                ys = [p[1] for p in coords]
+                lon_pts.append(sum(xs) / len(xs))
+                lat_pts.append(sum(ys) / len(ys))
+                found = True
+                break
+        if not found:
+            lon_pts.append(None)
+            lat_pts.append(None)
+
+    agg["lon"] = lon_pts
+    agg["lat"] = lat_pts
+    agg = agg.dropna(subset=["lon", "lat"])
+
+    # Round values for display
+    agg["Risk Score"] = agg["combined_risk"].round(2)
+    agg["pH (avg)"] = agg["ph"].round(2)
+    agg["Conductivity (µS/cm)"] = agg["conductivity"].round(2)
+    agg["TDS (mg/L)"] = agg["tds"].round(2)
+    agg["County"] = agg["clean_county"].str.title()
+
+    # Build the Bubble Map (Carto-positron requires NO API token)
+    fig = px.scatter_mapbox(
+        agg, 
+        lat="lat", 
+        lon="lon", 
+        size="combined_risk", 
+        color="Main Driver",
+        hover_name="County",
+        custom_data=["Risk Score", "Main Driver", "pH (avg)", "Conductivity (µS/cm)", "TDS (mg/L)"],
+        color_discrete_map={
+            "Conductivity": "#e63946", # Red
+            "TDS": "#f4a261",          # Orange
+            "pH": "#457b9d",           # Blue
+            "Safe": "#2a9d8f",         # Green
+            "Insufficient Data": "#cccccc"
+        },
+        size_max=40,
+        zoom=5.5,
+        center={"lat": 0.0236, "lon": 37.9062},
+        mapbox_style="carto-positron" 
+    )
+
+    fig.update_traces(
+        hovertemplate=(
+            "<b>%{hovertext}</b><br><br>" +
+            "Risk Score: %{customdata[0]}<br>" +
+            "Main Driver: %{customdata[1]}<br><br>" +
+            "pH: %{customdata[2]}<br>" +
+            "Conductivity: %{customdata[3]} µS/cm<br>" +
+            "TDS: %{customdata[4]} mg/L<br>" +
+            "<extra></extra>" 
+        )
+    )
+
+    fig.update_layout(
+        height=600, 
+        margin=dict(l=0, r=0, t=0, b=0),
+        legend_title_text="Main Risk Driver"
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
+
+    # ============================================================
+    # FINDINGS SECTION
+    # ============================================================
+    st.markdown("---")
+    st.markdown("## 🔍 Key Findings: Where the Problem Lies Most")
+    
+    worst_county = agg.sort_values("combined_risk", ascending=False).iloc[0]
+    
+    st.success(f"""
+    **Most Affected County:** **{worst_county['County']}** 
+    * **Total Risk Score:** {worst_county['Risk Score']} (Safest = 0.0, KEBS Limit = 1.0)
+    """)
+    
+    st.markdown("### What is driving the risk in this county?")
+    st.markdown("The table below shows exactly how much each factor contributed to the combined risk score in this worst-performing county, ordered from highest impact to lowest impact.")
+    
+    worst_factors = pd.DataFrame({
+        "Factor": ["Conductivity", "TDS", "pH"],
+        "Risk Contribution": [worst_county["cond_risk"], worst_county["tds_risk"], worst_county["ph_risk"]],
+        "Actual Average": [worst_county["conductivity"], worst_county["tds"], worst_county["ph"]],
+        "KEBS Limit": ["2500 µS/cm", "1000 mg/L", "6.5 - 8.5"]
+    }).sort_values("Risk Contribution", ascending=False)
+
+    worst_factors["Risk Contribution"] = worst_factors["Risk Contribution"].round(2)
+    worst_factors["Actual Average"] = worst_factors["Actual Average"].round(2)
+
+    st.table(worst_factors.set_index("Factor").style.background_gradient(cmap="Reds", subset=["Risk Contribution"]))
+
+    st.markdown(f"""
+    **Conclusion for {worst_county['County']}:**
+    The primary driver of the high risk score is **{worst_factors.iloc[0]['Factor']}**. 
+    The average value of **{worst_factors.iloc[0]['Actual Average']}** is causing this county to be flagged as high risk.
+    """)
+
+# ============================================================
+# PAGE 3 — VISUALIZATIONS
+# ============================================================
+elif page == "📊 Visualizations":
+    st.title("📊 Visualizations & Findings")
+    st.markdown("The analysis is organized by **aspect of water quality** — not by ranking them. "
+                "Each aspect is shown in three views: distribution, by source, by county.")
+    st.markdown("---")
+
+    category = st.radio(
+        "**Choose a category:**",
+        ["🧪 pH", "⚡ Conductivity", "💧 TDS", "🔗 Relationships"],
+        horizontal=True,
+    )
+    st.markdown("---")
+
+    df = load_water_df()
+    
+    ph_col = "ph"
+    cond_col = "conductivity?s/cm"
+    tds_col = "total_dissolved_solids"
+    src_col = "type_of_h2o"
+    county_col = "county"
+
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    # ---------------- SECTION A: pH ----------------
+    if category == "🧪 pH":
+        st.markdown("# 🧪 Section A — pH")
+        st.markdown("*pH measures how acidic or alkaline water is. KEBS range: 6.5 – 8.5.*")
+        st.markdown("---")
+
+        st.markdown("## Chart 1 — pH Distribution")
+        fig = px.histogram(df.dropna(subset=[ph_col]), x=ph_col, nbins=40,
+                           color_discrete_sequence=["#0077b6"])
+        fig.add_vrect(x0=6.5, x1=8.5, fillcolor="green", opacity=0.12, line_width=0,
+                      annotation_text="KEBS safe range", annotation_position="top")
+        fig.add_vline(x=6.5, line_dash="dash", line_color="red")
+        fig.add_vline(x=8.5, line_dash="dash", line_color="red")
+        fig.update_layout(xaxis_title="pH", yaxis_title="Number of samples",
+                          hovermode="x unified", height=420, bargap=0.02,
+                          template="plotly_white",
+                          title=dict(text="pH Distribution Across All Samples",
+                                     font=dict(size=14, color="black")))
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown("**What it shows:** How many samples fall at each pH value.")
+        st.markdown("**Key insight:** Most samples cluster near neutral (pH 7). A few fall outside the KEBS range.")
+        st.markdown("**Why:** Geology (limestone raises pH, granite lowers it), industrial effluent, agricultural runoff.")
+        st.markdown("---")
+
+        st.markdown("## Chart 2 — pH by Water Source Type")
+        src_data = df[[src_col, ph_col]].dropna()
+        top_src = src_data[src_col].value_counts().head(6).index
+        src_data = src_data[src_data[src_col].isin(top_src)]
+        order = src_data.groupby(src_col)[ph_col].median().sort_values().index.tolist()
+        
+        fig = px.box(src_data, x=src_col, y=ph_col, color=src_col,
+                     category_orders={src_col: order},
+                     color_discrete_sequence=px.colors.sequential.Viridis,
+                     points="outliers")
+        fig.add_hline(y=6.5, line_dash="dash", line_color="red", line_width=1.2)
+        fig.add_hline(y=8.5, line_dash="dash", line_color="red", line_width=1.2)
+        
+        # Simplified Hover
+        fig.update_traces(
+            hovertemplate=(
+                "<b>Source: %{x}</b><br>" +
+                "Median pH: %{median:.2f}<br>" +
+                "<extra></extra>"
+            ),
+            selector=dict(type="box")
+        )
+        
+        fig.update_layout(xaxis_title="Source type", yaxis_title="pH",
+                          showlegend=False, height=460, template="plotly_white",
+                          title=dict(text="pH by Water Source Type",
+                                     font=dict(size=14, color="black")))
+        fig.update_xaxes(tickangle=30)
+        st.plotly_chart(fig, use_container_width=True)
+        
+        st.markdown("**What it shows:** Box plot of pH grouped by source type.")
+        st.markdown("""
+        **How to read a box plot:**
+        - The **box** = the middle 50% of samples
+        - The **line inside the box** = median (middle value)
+        - The **whiskers** = the full range of most samples
+        - **Dots outside** = unusual values (outliers)
+        """)
+        st.markdown("**Key insight:** Rain and borehole water cluster tightly near neutral. Effluent and river water vary more.")
+        st.markdown("**Why:** Rain is naturally distilled and clean. Effluent carries chemicals from treatment processes. Rivers vary with runoff.")
+        st.markdown("---")
+
+        st.markdown("## Chart 3 — Average pH by County")
+        grp = (df.dropna(subset=[ph_col, county_col])
+                 .groupby(county_col)[ph_col]
+                 .agg(["mean", "count"]).query("count >= 5")
+                 .sort_values("mean").reset_index())
+        if not grp.empty:
+            grp["is_outside"] = (grp["mean"] < 6.5) | (grp["mean"] > 8.5)
+            grp["color"] = grp["is_outside"].map({True: "#e63946", False: "#2a9d8f"})
+            fig = go.Figure(go.Bar(
+                x=grp["mean"], y=grp[county_col],
+                orientation="h",
+                marker_color=grp["color"],
+                text=grp["mean"].round(2),
+                textposition="outside",
+                hovertemplate="<b>%{y}</b><br>Mean pH: %{x:.2f}<extra></extra>",
+            ))
+            fig.add_vline(x=6.5, line_dash="dash", line_color="red", line_width=1.2)
+            fig.add_vline(x=8.5, line_dash="dash", line_color="red", line_width=1.2)
+            fig.update_layout(
+                height=max(400, len(grp) * 40),
+                xaxis_title="Average pH", yaxis_title="",
+                template="plotly_white", showlegend=False,
+                title=dict(text="Average pH by County (n ≥ 5 samples)",
+                           font=dict(size=14, color="black")),
+                margin=dict(l=120)
+            )
+            st.plotly_chart(fig, use_container_width=True)
+        st.markdown("**What it shows:** Average pH for each county with at least 5 samples.")
+        st.markdown("**Key insight:** Most counties cluster near neutral pH. A few outliers sit below or above the KEBS range.")
+        st.markdown("""
+        **Why Mandera stands out with high pH:** Mandera sits on limestone-rich geological formations
+        in Kenya's arid northeast. Water passing through these rocks dissolves alkaline minerals
+        (calcium carbonate), raising pH. The dry climate concentrates these minerals further through
+        evaporation. This is a **natural, geological cause** — not human pollution.
+        """)
+        st.markdown("---")
+
+    # ---------------- SECTION B: Conductivity ----------------
+    elif category == "⚡ Conductivity":
+        st.markdown("# ⚡ Section B — Conductivity")
+        st.markdown("*Conductivity measures dissolved salts and minerals. KEBS limit: ≤2500 µS/cm.*")
+        st.markdown("---")
+
+        st.markdown("## Chart 4 — Conductivity Distribution")
+        fig = px.histogram(df.dropna(subset=[cond_col]), x=cond_col, nbins=40,
+                           color_discrete_sequence=["#2a9d8f"])
+        fig.add_vline(x=2500, line_dash="dash", line_color="red", line_width=1.5)
+        fig.update_layout(xaxis_title="Conductivity (µS/cm)", yaxis_title="Number of samples",
+                          height=420, bargap=0.02, template="plotly_white",
+                          title=dict(text="Conductivity Distribution Across All Samples",
+                                     font=dict(size=14, color="black")))
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown("**What it shows:** How many samples fall at each conductivity level.")
+        st.markdown("**Key insight:** Most samples sit well below the KEBS limit.")
+        st.markdown("**Why:** Lower conductivity = fewer dissolved minerals = cleaner water.")
+        st.markdown("---")
+
+        st.markdown("## Chart 5 — Average Conductivity by Water Source Type")
+        src_cond = df[[src_col, cond_col]].dropna()
+        top_src = src_cond[src_col].value_counts().head(6).index
+        src_cond = src_cond[src_cond[src_col].isin(top_src)]
+        avg_cond = (src_cond.groupby(src_col)[cond_col].mean()
+                    .sort_values(ascending=False).reset_index())
+        avg_cond.columns = [src_col, "avg_cond"]
+        fig = px.bar(avg_cond, x=src_col, y="avg_cond", color=src_col,
+                     category_orders={src_col: avg_cond[src_col].tolist()},
+                     color_discrete_sequence=px.colors.sequential.Tealgrn)
+        fig.add_hline(y=2500, line_dash="dash", line_color="red", line_width=1.2)
+        fig.update_layout(xaxis_title="Source type", yaxis_title="Conductivity (µS/cm)",
+                          showlegend=False, height=460, template="plotly_white",
+                          title=dict(text="Average Conductivity by Water Source Type",
+                                     font=dict(size=14, color="black")))
+        fig.update_xaxes(tickangle=30)
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown("**What it shows:** Average conductivity for each source type.")
+        st.markdown("**What is effluent?** Treated wastewater released from sewage treatment plants or factories — the 'end of pipe' after processing.")
+        st.markdown("**Key insight:** Effluent has the highest conductivity. Rain water has the lowest.")
+        st.markdown("**Why:** Effluent collects dissolved chemicals from homes and industry. Rain is naturally low in dissolved ions.")
+        st.markdown("---")
+
+        st.markdown("## Chart 6 — Average Conductivity by County")
+        grp = (df.dropna(subset=[cond_col, county_col])
+                 .groupby(county_col)[cond_col]
+                 .agg(["mean", "count"]).query("count >= 5")
+                 .sort_values("mean", ascending=False).reset_index())
+        if not grp.empty:
+            grp["is_above"] = grp["mean"] > 2500
+            grp["color"] = grp["is_above"].map({True: "#e63946", False: "#2a9d8f"})
+            fig = go.Figure(go.Bar(
+                x=grp["mean"], y=grp[county_col],
+                orientation="h",
+                marker_color=grp["color"],
+                text=grp["mean"].round(0),
+                textposition="outside",
+                hovertemplate="<b>%{y}</b><br>Mean cond: %{x:,.0f} µS/cm<extra></extra>",
+            ))
+            fig.add_vline(x=2500, line_dash="dash", line_color="red", line_width=1.2)
+            fig.update_layout(
+                height=max(400, len(grp) * 40),
+                xaxis_title="Conductivity (µS/cm)", yaxis_title="",
+                template="plotly_white", showlegend=False,
+                title=dict(text="Average Conductivity by County (n ≥ 5 samples)",
+                           font=dict(size=14, color="black")),
+                margin=dict(l=120)
+            )
+            fig.update_yaxes(autorange="reversed")
+            st.plotly_chart(fig, use_container_width=True)
+        st.markdown("**What it shows:** Average conductivity for each county with at least 5 samples.")
+        st.markdown("""
+        **Why arid and semi-arid counties stand out:**
+        - **Evaporation** — Dry heat concentrates salts in groundwater
+        - **Low rainfall** — Less dilution of dissolved minerals
+        - **Geology** — Machakos and Kajiado sit on metamorphic rock belts rich in soluble ions
+        - **Long residence time** — Water stays in aquifers longer, dissolving more minerals
+
+        **Does this affect water quality?** Yes, negatively. High conductivity means:
+        - Salty or metallic taste
+        - Possible long-term health effects (hypertension)
+        - Requires treatment (reverse osmosis) before drinking
+        """)
+        st.markdown("---")
+
+    # ---------------- SECTION C: TDS ----------------
+    elif category == "💧 TDS":
+        st.markdown("# 💧 Section C — Total Dissolved Solids (TDS)")
+        st.markdown("*TDS measures the total weight of everything dissolved in water — salts, minerals, metals. KEBS limit: ≤1000 mg/L.*")
+        st.markdown("---")
+
+        st.markdown("## Chart 7 — TDS Distribution")
+        fig = px.histogram(df.dropna(subset=[tds_col]), x=tds_col, nbins=40,
+                           color_discrete_sequence=["#e76f51"])
+        fig.add_vline(x=1000, line_dash="dash", line_color="red", line_width=1.5)
+        fig.update_layout(xaxis_title="TDS (mg/L)", yaxis_title="Number of samples",
+                          height=420, bargap=0.02, template="plotly_white",
+                          title=dict(text="Total Dissolved Solids (TDS) Distribution",
+                                     font=dict(size=14, color="black")))
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown("**What it shows:** How many samples fall at each TDS level.")
+        st.markdown("""
+        **How to read TDS levels:**
+        - **< 300 mg/L** → Excellent — clean, fresh-tasting
+        - **300 – 600** → Good — typical drinking water
+        - **600 – 900** → Fair — noticeable mineral taste
+        - **> 1000** → Fails KEBS standard
+        """)
+        st.markdown("**Key insight:** Most samples fall below the KEBS limit, indicating acceptable mineral content.")
+        st.markdown("**Why:** Low rainfall (less dilution), long water-rock contact time, and industrial/agricultural runoff all raise TDS.")
+        st.markdown("---")
+
+        st.markdown("## Chart 8 — Average TDS by County")
+        grp_tds = (df.dropna(subset=[tds_col, county_col])
+                     .groupby(county_col)[tds_col]
+                     .agg(["mean", "count"]).query("count >= 5")
+                     .sort_values("mean", ascending=False).reset_index())
+        if not grp_tds.empty:
+            grp_tds["is_above"] = grp_tds["mean"] > 1000
+            grp_tds["color"] = grp_tds["is_above"].map({True: "#e63946", False: "#2a9d8f"})
+            fig = go.Figure(go.Bar(
+                x=grp_tds["mean"], y=grp_tds[county_col],
+                orientation="h",
+                marker_color=grp_tds["color"],
+                text=grp_tds["mean"].round(0),
+                textposition="outside",
+                hovertemplate="<b>%{y}</b><br>Mean TDS: %{x:,.0f} mg/L<extra></extra>",
+            ))
+            fig.add_vline(x=1000, line_dash="dash", line_color="red", line_width=1.2)
+            fig.update_layout(
+                height=max(400, len(grp_tds) * 40),
+                xaxis_title="TDS (mg/L)", yaxis_title="",
+                template="plotly_white", showlegend=False,
+                title=dict(text="Average TDS by County (n ≥ 5 samples)",
+                           font=dict(size=14, color="black")),
+                margin=dict(l=120)
+            )
+            fig.update_yaxes(autorange="reversed")
+            st.plotly_chart(fig, use_container_width=True)
+        st.markdown("**What it shows:** Average TDS for each county with at least 5 samples.")
+        st.markdown("**Key insight:** High TDS levels often correlate with high conductivity. Counties near the red line face significant salinity issues.")
+        st.markdown("---")
+
+    # ---------------- SECTION D: Relationships ----------------
+    elif category == "🔗 Relationships":
+        st.markdown("# 🔗 Section D — Relationships Between Parameters")
+        st.markdown("---")
+
+        st.markdown("## Chart 9 — Correlation Between Water Quality Parameters")
+        corr_cols = [ph_col, cond_col, tds_col]
+        corr_df = df[corr_cols].dropna(how="all")
+        corr = corr_df.corr(numeric_only=True)
+        labels = ["pH", "Conductivity", "TDS"]
+        fig = px.imshow(corr, text_auto=".2f", color_continuous_scale="RdBu",
+                        zmin=-1, zmax=1, aspect="equal",
+                        x=labels, y=labels)
+        fig.update_layout(height=520, template="plotly_white",
+                          title=dict(text="Correlation Between Water Quality Parameters",
+                                     font=dict(size=14, color="black")))
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown("**What it shows:** How strongly pH, conductivity, and TDS are related to each other.")
+        st.markdown("""
+        **How to read it:**
+        - **+1.0** = perfect positive relationship (both go up together)
+        - **0.0** = no relationship
+        - **−1.0** = perfect negative relationship (one goes up, other goes down)
+        """)
+        st.markdown("**Key insight:** Conductivity and TDS show a strong positive correlation — they measure essentially the same thing (dissolved ion content).")
+        st.markdown("""
+        **What this means for water quality?**
+        - Strong correlation means: **if you measure one, you know the other.** Testing becomes cheaper.
+        - Weak correlation between other pairs means: **each parameter must be tested separately.** You cannot predict pH from conductivity.
+        """)
+
+# ============================================================
+# PAGE 4 — DATA EXPLORER
+# ============================================================
+elif page == "🔍 Data Explorer":
+    st.title("🔍 Data Explorer")
+    st.markdown("Explore the 493 KEWI water samples. Empty cells mean the test was "
+                "**not performed on that sample** — not a data error.")
+
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+
+    st.markdown(f"**{len(df)} rows · {len(df.columns)} columns**")
+
+    df_display = df.copy().fillna("Not Tested")
+    n_rows = st.slider("Rows to display:", 10, 493, 50, 10)
+    st.dataframe(df_display.head(n_rows), use_container_width=True)
+
+    st.info("""
+    💡 **Why 'Not Tested'?** KEWI ran different test panels on different samples.
+    A sample tested only for pH will show 'Not Tested' in conductivity, TDS, and alkalinity.
+    These nulls are preserved and not filled with zeros — that would distort every average.
+    """)
+
+# ============================================================
+# PAGE 5 — METHODOLOGY
+# ============================================================
+elif page == "📖 Methodology":
+    st.title("📖 Methodology")
+
+    st.markdown("""
+    ### Phase 1 — Data Loading
+    - Loaded 493 samples from `kenya_water.db` → `kewi_water_tests`
+
+    ### Phase 2 — Cleaning
+    - Converted text-stored numbers to numeric
+    - Standardized county names — mapped to Kenya's 47 official counties
+    - Removed non-Kenyan entries and old provincial names
+    - Preserved nulls — they mean "test not performed", not zero
+
+    ### Phase 3 — Analysis
+    - Examined distribution of each parameter (pH, conductivity, TDS)
+    - Compared values across source types
+    - Grouped by county (n ≥ 5 samples for statistical reliability)
+    - Ran correlation analysis between parameters    ### Phase 4 — Visualization
+    - Generated 8 charts organized by aspect
+    - Deployed as this Streamlit app
+    """)
+
+    st.markdown("### 🛠️ Technology Stack")
+    st.markdown("""
+    - **Python 3.12** — core language
+    - **pandas / numpy** — data processing
+    - **SQLite** — database storage
+    - **matplotlib / seaborn** — charts
+    - **Streamlit** — web deployment
+    - **Git / GitHub** — version control
+    """)
+
+# ============================================================
+# PAGE 6 — LIMITATIONS
+# ============================================================
+elif page == "⚠️ Limitations":
+    st.title("⚠️ Limitations")
+
+    st.markdown("""
+    ### Data Limitations
+    - **Snapshot, not time series** — Only 6 months of data (late 2011 to early 2012).
+    - **Concentrated coverage** — Testing concentrated in a few counties.
+    - **Partial test panels** — Conductivity and TDS tested on only ~25% of samples.
+    - **No microbial data** — E. coli and coliform not measured.
+    - **No heavy metals** — Lead, arsenic, and chromium not in dataset.
+    - **Historical** — 2011–2012 data may not reflect current conditions.
+
+    ### Methodological Limitations
+    - Small county sample sizes reduce statistical reliability.
+    - Correlations are described, not proven causal.
+    - Counties with fewer than 5 samples are excluded from county-level charts.
+    """)
+
+# ============================================================
+# PAGE 7 — CONCLUSION
+# ============================================================
+elif page == "✅ Conclusion":
+    st.title("✅ Conclusion")
+    st.markdown("---")
+
+    st.markdown("""
+    ### What This Analysis Reveals
+
+    The 493 KEWI samples show that Kenya's water quality is **mixed**.
+
+    - **pH** — Most samples are within the KEBS safe range (6.5–8.5). A minority fall outside.
+    - **Conductivity** — Most samples are well below the KEBS limit. Some arid-zone counties
+      show higher values due to geology and evaporation.
+    - **TDS** — Most samples fall below the 1000 mg/L limit.
+    - **Sources matter** — Effluent and river samples are consistently more variable than rain
+      and borehole samples.
+    - **Conductivity and TDS are linked** — measuring one tells you the other.
+
+    ### What Remains Uncertain
+
+    - Sample sizes vary widely by county. Some counties have only a handful of tests.
+    - The dataset is 12+ years old.
+    - Microbial safety (E. coli, coliform) is not measured.
+    - Heavy metals (lead, arsenic) are not tested.
+    """)
+
+    st.markdown("---")
+    st.markdown("## 💡 Recommendations")
+
+    st.success("""
+    **1 — Expand testing coverage.**
+    Testing is concentrated in a few counties. Every county should have at least annual water
+    quality testing to build a national picture.
+    """)
+
+    st.success("""
+    **2 — Standardize test panels.**
+    Every sample should be tested for at least pH, conductivity, and TDS. The current dataset
+    shows inconsistent panels, making comparisons difficult.
+    """)
+
+    st.success("""
+    **3 — Add microbial and heavy-metal testing.**
+    Chemical parameters alone do not tell the full safety story. E. coli and heavy metals are
+    critical for public health assessment.
+    """)
+
+    st.success("""
+    **4 — Publish water quality data openly.**
+    Institutions like KEWI collect valuable data. Publishing it in a standard, accessible format
+    would let researchers, policymakers, and the public see the same picture.
+    """)
+
+    st.markdown("---")
+    st.markdown("""
+    ### Final Thought
+
+    This project does not solve Kenya's water crisis. It shows how one snapshot of data
+    can be analyzed to reveal what is known — and, just as importantly, what is not.
+    """)
+
+# ============================================================
+# FOOTER
+# ============================================================
+st.sidebar.markdown("---")
+st.sidebar.caption("Built with Python + Streamlit")
+##########################################################
+#############################################################
+#ANOTHER BACK UP 2
+###############################################################
+#############################################################
+"""
+Kenya Water Quality Analysis — Streamlit App
+Run: streamlit run app.py
+"""
+
+import os
+import sqlite3
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+
+st.set_page_config(
+    page_title="Kenya Water Quality Analysis",
+    page_icon="💧",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+st.sidebar.title("💧 Kenya Water Quality")
+st.sidebar.markdown("### Navigation")
+page = st.sidebar.radio(
+    "Go to:",
+    ["🏠 Overview", "🚨 Step 1: Risk Assessment", "🔍 Step 2: Root Cause Analysis", 
+     "💡 Conclusions", "🔍 Data Explorer", "📖 Methodology"]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("**About**")
+st.sidebar.info("Analysis of 493 water samples from the Kenya Water Institute (2011–2012).")
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Standards used**")
+st.sidebar.markdown("- KEBS KS 459-1\n- WHO Guidelines")
+
+# ============================================================
+# Cached data loader & Helper Functions
+# ============================================================
+DB_PATH = "data/processed/kenya_water.db"
+
+@st.cache_data
+def load_water_df():
+    conn = sqlite3.connect(DB_PATH)
+    d = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+    d.columns = [c.strip().lower().replace(" ", "_") for c in d.columns]
+    
+    # Filter out non-Kenyan locations
+    non_kenyan = ["somalia", "mogadishu", "moshitanzania", "iringa"]
+    d = d[~d["county"].astype(str).str.lower().str.strip().isin(non_kenyan)]
+    return d
+
+def clean_source(s):
+    s = str(s).lower().strip()
+    if "bore" in s or "b/hole" in s: return "Borehole"
+    elif "river" in s or "stream" in s or "surface" in s: return "River/Stream"
+    elif "shallow" in s or "well" in s: return "Shallow Well"
+    elif "pipe" in s or "tap" in s or "treated" in s or "domestic" in s: return "Piped/Treated"
+    elif "rain" in s or "roof" in s: return "Rainwater"
+    elif "effluent" in s or "waste" in s or "sewage" in s or "influent" in s: return "Effluent"
+    else: return None
+
+# ============================================================
+# PAGE 1 — OVERVIEW
+# ============================================================
+if page == "🏠 Overview":
+    st.title("💧 Kenya Water Quality Analysis")
+    st.markdown("### 493 lab samples · 2011–2012")
+    st.markdown("---")
+
+    st.markdown("## 📖 Project Description")
+    st.markdown("""
+    **Clean water is a public health priority in Kenya — yet access does not guarantee safety.**
+
+    This project analyzes **493 water samples** collected by the **Kenya Water Institute (KEWI)** in 2011–2012. Each sample was tested for pH, Conductivity, and TDS.
+    """)
+
+# ============================================================
+# STEP 1 — RISK ASSESSMENT
+# ============================================================
+elif page == "🚨 Step 1: Risk Assessment":
+    st.title("🚨 Step 1: Risk Assessment")
+    st.markdown("""
+    **What we do:** Evaluate how many samples in each county violate KEBS/WHO standards.
+    **Goal:** Rank counties from Highest Risk to Lowest Risk across all three factors.
+    """)
+    
+    st.info("""
+    **KEBS Standards:**
+    *   **pH:** 6.50 – 8.50
+    *   **Conductivity:** ≤ 2500.00 µS/cm
+    *   **TDS:** ≤ 1000.00 mg/L
+    """)
+    st.markdown("---")
+
+    df = load_water_df()
+    ph_col, cond_col, tds_col, county_col = "ph", "conductivity?s/cm", "total_dissolved_solids", "county"
+
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    # Calculate failure rates
+    agg = df.dropna(subset=[county_col]).groupby(county_col).agg(
+        n_samples=(ph_col, "count"),
+        ph_fail=(ph_col, lambda x: ((x < 6.5) | (x > 8.5)).sum()),
+        cond_fail=(cond_col, lambda x: (x > 2500).sum()),
+        tds_fail=(tds_col, lambda x: (x > 1000).sum())
+    )
+    
+    agg = agg[agg["n_samples"] >= 5].copy()
+    
+    agg["pH Violation %"] = (agg["ph_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["Cond Violation %"] = (agg["cond_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["TDS Violation %"] = (agg["tds_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["Overall Fail %"] = (agg["pH Violation %"] + agg["Cond Violation %"] + agg["TDS Violation %"]) / 3
+    
+    # Sort by overall failure rate for the table
+    agg_sorted = agg.sort_values("Overall Fail %", ascending=False).reset_index()
+
+    st.markdown("### 🚨 1. pH Risk by County")
+    ph_chart_data = agg_sorted.dropna(subset=["pH Violation %"]).sort_values("pH Violation %", ascending=False)
+    fig_ph = px.bar(ph_chart_data, x=county_col, y="pH Violation %", template="plotly_white", color="pH Violation %", color_continuous_scale="Reds")
+    fig_ph.update_traces(hovertemplate="<b>%{x}</b><br>Failure Rate: %{y:.2f}%<extra></extra>")
+    fig_ph.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_ph, use_container_width=True)
+
+    st.markdown("### 🚨 2. Conductivity Risk by County")
+    cond_chart_data = agg_sorted.dropna(subset=["Cond Violation %"]).sort_values("Cond Violation %", ascending=False)
+    fig_cond = px.bar(cond_chart_data, x=county_col, y="Cond Violation %", template="plotly_white", color="Cond Violation %", color_continuous_scale="Reds")
+    fig_cond.update_traces(hovertemplate="<b>%{x}</b><br>Failure Rate: %{y:.2f}%<extra></extra>")
+    fig_cond.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_cond, use_container_width=True)
+
+    st.markdown("### 🚨 3. TDS Risk by County")
+    tds_chart_data = agg_sorted.dropna(subset=["TDS Violation %"]).sort_values("TDS Violation %", ascending=False)
+    fig_tds = px.bar(tds_chart_data, x=county_col, y="TDS Violation %", template="plotly_white", color="TDS Violation %", color_continuous_scale="Reds")
+    fig_tds.update_traces(hovertemplate="<b>%{x}</b><br>Failure Rate: %{y:.2f}%<extra></extra>")
+    fig_tds.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_tds, use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("### 📋 Overall Highest Risk Counties")
+    
+    valid_counties = set(ph_chart_data[county_col]) | set(cond_chart_data[county_col]) | set(tds_chart_data[county_col])
+    table_data = agg_sorted[agg_sorted[county_col].isin(valid_counties)].copy()
+    
+    st.dataframe(
+        table_data.head(10)[[county_col, "n_samples", "pH Violation %", "Cond Violation %", "TDS Violation %", "Overall Fail %"]]
+        .rename(columns={county_col: "County", "n_samples": "Total Samples", "Overall Fail %": "Avg Risk %"}),
+        use_container_width=True
+    )
+
+    st.markdown("""
+    ### 🔍 Conclusion for Step 1
+    Conductivity and TDS violations are much more common than pH violations. The counties at the top of the table have a systemic failure rate exceeding 30%. This means their natural water sources are heavily contaminated with salts. We must investigate these specific counties further.
+    """)
+
+# ============================================================
+# STEP 2 — ROOT CAUSE ANALYSIS
+# ============================================================
+elif page == "🔍 Step 2: Root Cause Analysis":
+    st.title("🔍 Step 2: Root Cause Analysis")
+    st.markdown("""
+    **What we do:** Zoom into the Top 5 worst counties identified in Step 1.
+    **Goal:** For each factor (pH, Cond, TDS), see which specific water source is causing the problem.
+    """)
+    st.markdown("---")
+
+    df = load_water_df()
+    ph_col, cond_col, tds_col, county_col, src_col = "ph", "conductivity?s/cm", "total_dissolved_solids", "county", "type_of_h2o"
+    
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    df[src_col] = df[src_col].apply(clean_source)
+    df_clean = df.dropna(subset=[src_col]).copy()
+
+    # DYNAMICALLY GET TOP 5 WORST COUNTIES FROM STEP 1
+    fail_agg = df_clean.dropna(subset=[county_col]).groupby(county_col).agg(
+        n_samples=(ph_col, "count"),
+        cond_fail=(cond_col, lambda x: (x > 2500).sum())
+    )
+    fail_agg = fail_agg[fail_agg["n_samples"] >= 5].copy()
+    fail_agg["fail_rate"] = (fail_agg["cond_fail"] / fail_agg["n_samples"] * 100).fillna(0)
+    
+    # Change head(3) to head(5) here
+    worst_counties = fail_agg.sort_values("fail_rate", ascending=False).head(5).index.tolist()
+
+    target_county = st.selectbox("Select a High-Risk County to investigate:", worst_counties)
+    
+    county_data = df_clean[df_clean[county_col].str.contains(target_county, case=False, na=False)].copy()
+    
+    if len(county_data) == 0:
+        st.warning(f"No source data found for {target_county}.")
+    else:
+        st.markdown(f"### Analyzing Water Sources in {target_county}")
+        
+        src_stats = county_data.groupby(src_col).agg(
+            Avg_pH=(ph_col, "mean"),
+            Avg_Cond=(cond_col, "mean"),
+            Avg_TDS=(tds_col, "mean"),
+            Samples=(ph_col, "count")
+        ).reset_index()
+
+        # 1. Conductivity by Source
+        st.markdown("#### 1. Conductivity by Source")
+        fig_cond = px.bar(src_stats, x=src_col, y="Avg_Cond", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_cond.add_hline(y=2500, line_dash="dash", line_color="red", annotation_text="KEBS Limit")
+        fig_cond.update_layout(showlegend=False, height=350)
+        st.plotly_chart(fig_cond, use_container_width=True)
+
+        # 2. TDS by Source
+        st.markdown("#### 2. TDS by Source")
+        fig_tds = px.bar(src_stats, x=src_col, y="Avg_TDS", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_tds.add_hline(y=1000, line_dash="dash", line_color="red", annotation_text="KEBS Limit")
+        fig_tds.update_layout(showlegend=False, height=350)
+        st.plotly_chart(fig_tds, use_container_width=True)
+
+        # 3. pH by Source
+        st.markdown("#### 3. pH by Source")
+        fig_ph = px.bar(src_stats, x=src_col, y="Avg_pH", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_ph.add_hline(y=6.5, line_dash="dash", line_color="red", annotation_text="KEBS Min")
+        fig_ph.add_hline(y=8.5, line_dash="dash", line_color="red", annotation_text="KEBS Max")
+        fig_ph.update_layout(showlegend=False, height=350)
+        st.plotly_chart(fig_ph, use_container_width=True)
+
+        if not src_stats.empty:
+            worst_source = src_stats.sort_values("Avg_Cond", ascending=False).iloc[0]
+            
+            st.markdown(f"""
+            ### 🔍 Findings & Conclusion for {target_county}
+            *   **The Problem Source:** In {target_county}, **{worst_source[src_col]}** is the primary driver of the county's high risk. 
+            *   **The Problem Factor:** Looking at the charts above, this source fails because of its extreme **Conductivity** ({worst_source['Avg_Cond']:.2f} µS/cm) and **TDS** ({worst_source['Avg_TDS']:.2f} mg/L), which far exceed the KEBS limits.
+            
+            **Conclusion:** To fix {target_county}, the Ministry must deploy targeted treatment (like Reverse Osmosis) specifically for **{worst_source[src_col]}** sources. You can also see that alternative sources in the county (like Rainwater) are well below the limit, meaning the infrastructure exists, but the natural source is contaminated.
+            """)
+
+# ============================================================
+# CONCLUSIONS
+# ============================================================
+elif page == "💡 Conclusions":
+    st.title("💡 Conclusions & Target Interventions")
+    st.markdown("---")
+
+    st.success("""
+    **1. Target RO Treatment in Arid Northern Counties**
+    Because Mandera, Wajir, and Garissa have dangerously high salinity in their boreholes, the Ministry must prioritize installing Reverse Osmosis (RO) desalination plants in these regions.
+    """)
+
+    st.success("""
+    **2. Adjust pH in Limestone-Belt Counties**
+    Counties like Kajiado and Machakos show elevated pH. Water treatment facilities here must implement a pH adjustment step (acidification) to bring the water into the safe range.
+    """)
+
+    st.success("""
+    **3. Restrict Untreated Effluent Discharge**
+    The analysis proves that Effluent has the highest Conductivity and TDS. The government and NEMA must enforce stricter penalties on factories and sewage plants releasing untreated water.
+    """)
+
+    st.success("""
+    **4. Standardize Testing Panels**
+    The data shows inconsistent testing. The Ministry should mandate a standardized national testing panel for all 47 counties to ensure no region is overlooked.
+    """)
+
+# ============================================================
+# DATA EXPLORER & METHODOLOGY
+# ============================================================
+elif page == "🔍 Data Explorer":
+    st.title("🔍 Data Explorer")
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+    st.dataframe(df.fillna("Not Tested").head(100), use_container_width=True)
+
+elif page == "📖 Methodology":
+    st.title("📖 Methodology")
+    st.markdown("""
+    - **Data:** 493 water samples from KEWI (2011–2012).
+    - **Cleaning:** Dropped non-Kenyan locations. Mapped messy text to 6 actual water sources.
+    - **Analysis:** Grouped by county and source to find compliance failures.
+    """)
+
+st.sidebar.markdown("---")
+st.sidebar.caption("Built with Python + Streamlit")
+################################################################
+#################################################################
+#ANOTHER BACK UP
+###################################################################
+###################################################################
+"""
+Kenya Water Quality Analysis — Streamlit App
+Run: streamlit run app.py
+"""
+
+import os
+import sqlite3
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+
+st.set_page_config(
+    page_title="Kenya Water Quality Analysis",
+    page_icon="💧",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+st.sidebar.title("💧 Kenya Water Quality")
+st.sidebar.markdown("### Navigation")
+page = st.sidebar.radio(
+    "Go to:",
+    ["🏠 Overview", "🚨 Step 1: Risk Assessment", "🔍 Step 2: Root Cause Analysis", 
+     "💡 Conclusions", "🔍 Data Explorer", "📖 Methodology"]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("**About**")
+st.sidebar.info("Analysis of 493 water samples from the Kenya Water Institute (2011–2012).")
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Standards used**")
+st.sidebar.markdown("- KEBS KS 459-1\n- WHO Guidelines")
+
+# ============================================================
+# Cached data loader & Helper Functions
+# ============================================================
+DB_PATH = "data/processed/kenya_water.db"
+
+@st.cache_data
+def load_water_df():
+    conn = sqlite3.connect(DB_PATH)
+    d = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+    d.columns = [c.strip().lower().replace(" ", "_") for c in d.columns]
+    
+    # Filter out non-Kenyan locations
+    non_kenyan = ["somalia", "mogadishu", "moshitanzania", "iringa"]
+    d = d[~d["county"].astype(str).str.lower().str.strip().isin(non_kenyan)]
+    return d
+
+def clean_source(s):
+    s = str(s).lower().strip()
+    if "bore" in s or "b/hole" in s: return "Borehole"
+    elif "river" in s or "stream" in s or "surface" in s: return "River/Stream"
+    elif "shallow" in s or "well" in s: return "Shallow Well"
+    elif "pipe" in s or "tap" in s or "treated" in s or "domestic" in s: return "Piped/Treated"
+    elif "rain" in s or "roof" in s: return "Rainwater"
+    elif "effluent" in s or "waste" in s or "sewage" in s or "influent" in s: return "Effluent"
+    else: return None
+
+# ============================================================
+# PAGE 1 — OVERVIEW (UPDATED)
+# ============================================================
+if page == "🏠 Overview":
+    st.title("💧 Kenya Water Quality Analysis")
+    st.markdown("### 493 lab samples · 2011–2012")
+    st.markdown("---")
+
+    st.markdown("## 📖 Project Overview")
+    st.markdown("""
+    **Clean water is a public health priority in Kenya — yet access does not guarantee safety.**
+
+    A household can be counted as "served" while the water flowing from its tap or borehole
+    fails basic chemical standards. This project analyzes **493 water samples** collected by
+    the **Kenya Water Institute (KEWI)** in 2011–2012. Each sample was tested for pH,
+    conductivity, and total dissolved solids (TDS).
+
+    **Note on time frame:** The dataset spans approximately 6 months (late 2011 to early 2012).
+    This is a **cross-sectional snapshot**, not a long-term time series. The strength of this
+    dataset is **comparison across geography and sources**, not trend analysis.
+
+    ### 📏 Benchmark Standards (KEBS)
+    This research evaluates water safety by comparing the KEWI samples against the **Kenya Bureau of Standards (KEBS)** limits for potable water (referencing KS EAS 12:2014 / KS 459-1):
+    *   **pH:** **6.50 – 8.50**
+    *   **Conductivity:** **2500.00 µS/cm** (Max)
+    *   **Total Dissolved Solids (TDS):** **1000.00 mg/L** (Max)
+    """)
+
+    st.markdown("---")
+    st.markdown("## ❗ Problem Statement")
+    st.markdown("""
+    **Kenya's water safety is unverified at scale.**
+
+    - Only a small fraction of Kenya's 47 counties have continuous water quality monitoring
+    - Where water is available, chemical safety is rarely tested
+    - Where testing happens, results sit in institutional spreadsheets that never reach policymakers
+
+    Contaminated water causes diarrhoeal disease, heavy-metal poisoning, and long-term health
+    damage. The 493 KEWI samples are one of the few available snapshots of Kenya's actual water
+    chemistry.
+    """)
+
+    st.markdown("---")
+    st.markdown("## 🎯 Objectives")
+    st.markdown("""
+    **General:** To assess water quality across Kenya using laboratory test data.
+
+    **Specific:**
+    1. Examine the distribution of each water quality parameter (pH, conductivity, TDS)
+    2. Compare water quality across water source types
+    3. Identify county-level patterns in water quality
+    4. Analyze correlations between parameters
+    """)
+
+    st.markdown("---")
+    st.markdown("## ❓ Research Questions")
+    st.markdown("""
+    1. How are pH, conductivity, and TDS distributed across tested samples?
+    2. How does water quality vary by source type (borehole, rain, effluent)?
+    3. Which counties show unusual patterns in pH or conductivity?
+    4. Do water quality parameters correlate — can one predict another?
+    """)
+
+    st.markdown("---")
+    st.markdown("## 👥 Target Audience")
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown("#### 🏛️ Policymakers")
+        st.markdown("""
+        - Ministry of Water
+        - County governments
+        - NEMA, WRA
+        """)
+    with col2:
+        st.markdown("#### 🌍 Development Organizations")
+        st.markdown("""
+        - UNICEF, WHO
+        - Water.org
+        - Local WRUAs
+        """)
+    with col3:
+        st.markdown("#### 🎓 Researchers")
+        st.markdown("""
+        - Environmental science
+        - Public health
+        - Water chemistry
+        """)
+
+# ============================================================
+# STEP 1 — RISK ASSESSMENT
+# ============================================================
+elif page == "🚨 Step 1: Risk Assessment":
+    st.title("🚨 Step 1: Risk Assessment")
+    st.markdown("""
+    **What we do:** Evaluate how many samples in each county violate KEBS/WHO standards.
+    **Goal:** Rank counties from Highest Risk to Lowest Risk across all three factors.
+    """)
+    
+    st.info("""
+    **KEBS Standards:**
+    *   **pH:** 6.50 – 8.50
+    *   **Conductivity:** ≤ 2500.00 µS/cm
+    *   **TDS:** ≤ 1000.00 mg/L
+    """)
+    st.markdown("---")
+
+    df = load_water_df()
+    ph_col, cond_col, tds_col, county_col = "ph", "conductivity?s/cm", "total_dissolved_solids", "county"
+
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    # Calculate failure rates
+    agg = df.dropna(subset=[county_col]).groupby(county_col).agg(
+        n_samples=(ph_col, "count"),
+        ph_fail=(ph_col, lambda x: ((x < 6.5) | (x > 8.5)).sum()),
+        cond_fail=(cond_col, lambda x: (x > 2500).sum()),
+        tds_fail=(tds_col, lambda x: (x > 1000).sum())
+    )
+    
+    agg = agg[agg["n_samples"] >= 5].copy()
+    
+    agg["pH Violation %"] = (agg["ph_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["Cond Violation %"] = (agg["cond_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["TDS Violation %"] = (agg["tds_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["Overall Fail %"] = (agg["pH Violation %"] + agg["Cond Violation %"] + agg["TDS Violation %"]) / 3
+    
+    agg_sorted = agg.sort_values("Overall Fail %", ascending=False).reset_index()
+
+    st.markdown("### 🚨 1. pH Risk by County")
+    ph_chart_data = agg_sorted[agg_sorted["pH Violation %"] > 0].sort_values("pH Violation %", ascending=False)
+    fig_ph = px.bar(ph_chart_data, x=county_col, y="pH Violation %", template="plotly_white", color="pH Violation %", color_continuous_scale="Reds")
+    fig_ph.update_traces(hovertemplate="<b>%{x}</b><br>Failure Rate: %{y:.2f}%<extra></extra>")
+    fig_ph.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_ph, use_container_width=True)
+
+    st.markdown("### 🚨 2. Conductivity Risk by County")
+    cond_chart_data = agg_sorted[agg_sorted["Cond Violation %"] > 0].sort_values("Cond Violation %", ascending=False)
+    fig_cond = px.bar(cond_chart_data, x=county_col, y="Cond Violation %", template="plotly_white", color="Cond Violation %", color_continuous_scale="Reds")
+    fig_cond.update_traces(hovertemplate="<b>%{x}</b><br>Failure Rate: %{y:.2f}%<extra></extra>")
+    fig_cond.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_cond, use_container_width=True)
+
+    st.markdown("### 🚨 3. TDS Risk by County")
+    tds_chart_data = agg_sorted[agg_sorted["TDS Violation %"] > 0].sort_values("TDS Violation %", ascending=False)
+    fig_tds = px.bar(tds_chart_data, x=county_col, y="TDS Violation %", template="plotly_white", color="TDS Violation %", color_continuous_scale="Reds")
+    fig_tds.update_traces(hovertemplate="<b>%{x}</b><br>Failure Rate: %{y:.2f}%<extra></extra>")
+    fig_tds.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_tds, use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("### 📋 Overall Highest Risk Counties")
+    
+    valid_counties = set(ph_chart_data[county_col]) | set(cond_chart_data[county_col]) | set(tds_chart_data[county_col])
+    table_data = agg_sorted[agg_sorted[county_col].isin(valid_counties)].copy()
+    
+    st.dataframe(
+        table_data.head(10)[[county_col, "n_samples", "pH Violation %", "Cond Violation %", "TDS Violation %", "Overall Fail %"]]
+        .rename(columns={county_col: "County", "n_samples": "Total Samples", "Overall Fail %": "Avg Risk %"}),
+        use_container_width=True
+    )
+
+    st.markdown("""
+    ### 🔍 Conclusion for Step 1
+    Conductivity and TDS violations are much more common than pH violations. The counties at the top of the table have a systemic failure rate exceeding 30%. This means their natural water sources are heavily contaminated with salts. We must investigate these specific counties further.
+    """)
+
+# ============================================================
+# STEP 2 — ROOT CAUSE ANALYSIS
+# ============================================================
+elif page == "🔍 Step 2: Root Cause Analysis":
+    st.title("🔍 Step 2: Root Cause Analysis")
+    st.markdown("""
+    **What we do:** First, check which water sources are used in the worst counties. Then, zoom in to see which specific source causes the highest risk.
+    """)
+    st.markdown("---")
+
+    df = load_water_df()
+    ph_col, cond_col, tds_col, county_col, src_col = "ph", "conductivity?s/cm", "total_dissolved_solids", "county", "type_of_h2o"
+    
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    df[src_col] = df[src_col].apply(clean_source)
+    df_clean = df.dropna(subset=[src_col]).copy()
+
+    # DYNAMICALLY GET TOP 5 WORST COUNTIES
+    fail_agg = df_clean.dropna(subset=[county_col]).groupby(county_col).agg(
+        n_samples=(ph_col, "count"),
+        cond_fail=(cond_col, lambda x: (x > 2500).sum())
+    )
+    fail_agg = fail_agg[fail_agg["n_samples"] >= 5].copy()
+    fail_agg["fail_rate"] = (fail_agg["cond_fail"] / fail_agg["n_samples"] * 100).fillna(0)
+    worst_counties = fail_agg.sort_values("fail_rate", ascending=False).head(5).index.tolist()
+
+    # --- NEW SECTION: SOURCES IN HIGH-RISK COUNTIES ---
+    st.markdown("### 🗺️ Main Water Sources in High-Risk Counties")
+    st.markdown("Before we look at chemical failures, let's see what water infrastructure exists in the top 5 worst counties identified in Step 1.")
+    
+    source_county_data = df_clean[df_clean[county_col].isin(worst_counties)]
+    
+    fig_src = px.histogram(
+        source_county_data, 
+        y=county_col, 
+        color=src_col, 
+        orientation="h",
+        title="Water Sources Found in Top 5 High-Risk Counties",
+        labels={county_col: "County", src_col: "Water Source"},
+        template="plotly_white",
+        barmode="stack"
+    )
+    fig_src.update_layout(height=400, legend_title_text="Source Type", margin=dict(l=100))
+    st.plotly_chart(fig_src, use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("### 🔬 Detailed Source Analysis")
+    st.markdown("Now, select a specific county to see which of its water sources is driving the high risk.")
+    
+    target_county = st.selectbox("Select a High-Risk County:", worst_counties)
+    county_data = df_clean[df_clean[county_col].str.contains(target_county, case=False, na=False)].copy()
+    
+    if len(county_data) == 0:
+        st.warning(f"No source data found for {target_county}.")
+    else:
+        src_stats = county_data.groupby(src_col).agg(
+            Avg_pH=(ph_col, "mean"),
+            Avg_Cond=(cond_col, "mean"),
+            Avg_TDS=(tds_col, "mean"),
+            Samples=(ph_col, "count")
+        ).reset_index()
+
+        # 1. Conductivity by Source
+        st.markdown(f"#### Conductivity in {target_county} by Source")
+        fig_cond = px.bar(src_stats, x=src_col, y="Avg_Cond", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_cond.add_hline(y=2500, line_dash="dash", line_color="red", annotation_text="KEBS Limit")
+        fig_cond.update_layout(showlegend=False, height=350)
+        st.plotly_chart(fig_cond, use_container_width=True)
+
+        # 2. TDS by Source
+        st.markdown(f"#### TDS in {target_county} by Source")
+        fig_tds = px.bar(src_stats, x=src_col, y="Avg_TDS", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_tds.add_hline(y=1000, line_dash="dash", line_color="red", annotation_text="KEBS Limit")
+        fig_tds.update_layout(showlegend=False, height=350)
+        st.plotly_chart(fig_tds, use_container_width=True)
+
+        # 3. pH by Source
+        st.markdown(f"#### pH in {target_county} by Source")
+        fig_ph = px.bar(src_stats, x=src_col, y="Avg_pH", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_ph.add_hline(y=6.5, line_dash="dash", line_color="red", annotation_text="KEBS Min")
+        fig_ph.add_hline(y=8.5, line_dash="dash", line_color="red", annotation_text="KEBS Max")
+        fig_ph.update_layout(showlegend=False, height=350)
+        st.plotly_chart(fig_ph, use_container_width=True)
+
+        if not src_stats.empty:
+            worst_source = src_stats.sort_values("Avg_Cond", ascending=False).iloc[0]
+            
+            st.markdown(f"""
+            ### 🔍 Findings & Conclusion for {target_county}
+            *   **The Problem Source:** In {target_county}, **{worst_source[src_col]}** is the primary driver of the county's high risk. 
+            *   **The Problem Factor:** Looking at the charts above, this source fails because of its extreme **Conductivity** ({worst_source['Avg_Cond']:.2f} µS/cm) and **TDS** ({worst_source['Avg_TDS']:.2f} mg/L), which far exceed the KEBS limits.
+            
+            **Conclusion:** To fix {target_county}, the Ministry must deploy targeted treatment (like Reverse Osmosis) specifically for **{worst_source[src_col]}** sources. You can also see that alternative sources in the county (like Rainwater) are well below the limit, meaning the infrastructure exists, but the natural source is contaminated.
+            """)
+
+# ============================================================
+# CONCLUSIONS
+# ============================================================
+elif page == "💡 Conclusions":
+    st.title("💡 Conclusions & Target Interventions")
+    st.markdown("---")
+
+    st.success("""
+    **1. Target RO Treatment in Arid Northern Counties**
+    Because Mandera, Wajir, and Garissa have dangerously high salinity in their boreholes, the Ministry must prioritize installing Reverse Osmosis (RO) desalination plants in these regions.
+    """)
+
+    st.success("""
+    **2. Adjust pH in Limestone-Belt Counties**
+    Counties like Kajiado and Machakos show elevated pH. Water treatment facilities here must implement a pH adjustment step (acidification) to bring the water into the safe range.
+    """)
+
+    st.success("""
+    **3. Restrict Untreated Effluent Discharge**
+    The analysis proves that Effluent has the highest Conductivity and TDS. The government and NEMA must enforce stricter penalties on factories and sewage plants releasing untreated water.
+    """)
+
+    st.success("""
+    **4. Standardize Testing Panels**
+    The data shows inconsistent testing. The Ministry should mandate a standardized national testing panel for all 47 counties to ensure no region is overlooked.
+    """)
+
+# ============================================================
+# DATA EXPLORER & METHODOLOGY
+# ============================================================
+elif page == "🔍 Data Explorer":
+    st.title("🔍 Data Explorer")
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+    st.dataframe(df.fillna("Not Tested").head(100), use_container_width=True)
+
+elif page == "📖 Methodology":
+    st.title("📖 Methodology")
+    
+    st.markdown("""
+    ### How did we know the water sources per county?
+    We know the water sources per county because **every single row in the KEWI dataset contains metadata**. Specifically, every water sample has two crucial columns:
+    1.  **`county`**: Tells us where the sample was taken.
+    2.  **`type_of_h2o`**: Tells us what the source was (e.g., Borehole, River, Rain).
+
+    When we group the dataset by `county` and count the `type_of_h2o`, we reveal the infrastructure reality of that region. If a county has 50 rows labeled "Borehole" and 2 rows labeled "River", we know that county relies almost entirely on groundwater. We cleaned this data by grouping typos (like "Bore Hole", "B/hole") into unified categories.
+    """)
+    
+    st.markdown("""
+    ### Data Cleaning Steps
+    - **Filtering:** Dropped non-Kenyan locations (e.g., Somalia, Mogadishu) from the county column.
+    - **Standardization:** Converted all text to lowercase, removed spaces, and used keyword matching (e.g., if the string contains "bore", it is labeled "Borehole").
+    - **Numeric Conversion:** Ensured pH, Conductivity, and TDS columns were strictly numeric, ignoring text errors.
+    """)
+
+st.sidebar.markdown("---")
+st.sidebar.caption("Built with Python + Streamlit")
+################################################################################
+#################################################################################
+##############################################################################
+#ANOTHER BACK UP
+#############################################################################
+#########################################################################
+#################################################################################
+"""
+Kenya Water Quality Analysis — Streamlit App
+Run: streamlit run app.py
+"""
+
+import os
+import sqlite3
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+
+st.set_page_config(
+    page_title="Kenya Water Quality Analysis",
+    page_icon="💧",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+st.sidebar.title("💧 Kenya Water Quality")
+st.sidebar.markdown("### Navigation")
+page = st.sidebar.radio(
+    "Go to:",
+    ["🏠 Overview", "🚨 Step 1: Risk Assessment", "🔍 Step 2: Root Cause Analysis", 
+     "📈 Correlations", "💡 Conclusions", "🔍 Data Explorer", "📖 Methodology"]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("**About**")
+st.sidebar.info("Analysis of 493 water samples from the Kenya Water Institute (2011–2012).")
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Standards used**")
+st.sidebar.markdown("- KEBS KS 459-1\n- WHO Guidelines")
+
+# ============================================================
+# Cached data loader & Helper Functions
+# ============================================================
+DB_PATH = "data/processed/kenya_water.db"
+
+@st.cache_data
+def load_water_df():
+    conn = sqlite3.connect(DB_PATH)
+    d = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+    d.columns = [c.strip().lower().replace(" ", "_") for c in d.columns]
+    
+    # Filter out non-Kenyan locations
+    non_kenyan = ["somalia", "mogadishu", "moshitanzania", "iringa"]
+    d = d[~d["county"].astype(str).str.lower().str.strip().isin(non_kenyan)]
+    return d
+
+def clean_source(s):
+    s = str(s).lower().strip()
+    if "bore" in s or "b/hole" in s: return "Borehole"
+    elif "river" in s or "stream" in s or "surface" in s: return "River/Stream"
+    elif "shallow" in s or "well" in s: return "Shallow Well"
+    elif "pipe" in s or "tap" in s or "treated" in s or "domestic" in s: return "Piped/Treated"
+    elif "rain" in s or "roof" in s: return "Rainwater"
+    elif "effluent" in s or "waste" in s or "sewage" in s or "influent" in s: return "Effluent"
+    else: return None
+
+# ============================================================
+# PAGE 1 — OVERVIEW
+# ============================================================
+if page == "🏠 Overview":
+    st.title("💧 Kenya Water Quality Analysis")
+    st.markdown("### 493 lab samples · 2011–2012")
+    st.markdown("---")
+
+    st.markdown("## 📖 Project Overview")
+    st.markdown("""
+    **Clean water is a public health priority in Kenya — yet access does not guarantee safety.**
+
+    This project analyzes **493 water samples** collected by the **Kenya Water Institute (KEWI)** in 2011–2012. Each sample was tested for pH, conductivity, and total dissolved solids (TDS).
+
+    ### 📏 Benchmark Standards (KEBS)
+    *   **pH:** **6.50 – 8.50**
+    *   **Conductivity:** **2500.00 µS/cm** (Max)
+    *   **Total Dissolved Solids (TDS):** **1000.00 mg/L** (Max)
+    """)
+    
+    st.markdown("---")
+    st.markdown("## ❗ Problem Statement")
+    st.markdown("""
+    **Kenya's water safety is unverified at scale.** Contaminated water causes diarrhoeal disease, heavy-metal poisoning, and long-term health damage. The 493 KEWI samples are one of the few available snapshots of Kenya's actual water chemistry.
+    """)
+
+    st.markdown("---")
+    st.markdown("## 🎯 Objectives")
+    st.markdown("""
+    1. Examine the distribution of each water quality parameter (pH, conductivity, TDS)
+    2. Compare water quality across water source types
+    3. Identify county-level patterns in water quality
+    4. Analyze correlations between parameters
+    """)
+
+# ============================================================
+# STEP 1 — RISK ASSESSMENT
+# ============================================================
+elif page == "🚨 Step 1: Risk Assessment":
+    st.title("🚨 Step 1: Risk Assessment")
+    st.markdown("""
+    **What we do:** Evaluate how many samples in each county violate KEBS/WHO standards.
+    **Goal:** Rank counties from Highest Risk to Lowest Risk across all three factors.
+    """)
+    
+    st.info("""
+    **KEBS Standards:** pH (6.50 – 8.50) | Conductivity (≤ 2500) | TDS (≤ 1000)
+    """)
+    st.markdown("---")
+
+    df = load_water_df()
+    ph_col, cond_col, tds_col, county_col = "ph", "conductivity?s/cm", "total_dissolved_solids", "county"
+
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    agg = df.dropna(subset=[county_col]).groupby(county_col).agg(
+        n_samples=(ph_col, "count"),
+        ph_fail=(ph_col, lambda x: ((x < 6.5) | (x > 8.5)).sum()),
+        cond_fail=(cond_col, lambda x: (x > 2500).sum()),
+        tds_fail=(tds_col, lambda x: (x > 1000).sum())
+    )
+    
+    agg = agg[agg["n_samples"] >= 5].copy()
+    agg["pH Violation %"] = (agg["ph_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["Cond Violation %"] = (agg["cond_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["TDS Violation %"] = (agg["tds_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["Overall Fail %"] = (agg["pH Violation %"] + agg["Cond Violation %"] + agg["TDS Violation %"]) / 3
+    
+    agg_sorted = agg.sort_values("Overall Fail %", ascending=False).reset_index()
+
+    st.markdown("### 🚨 1. pH Risk by County")
+    ph_chart_data = agg_sorted[agg_sorted["pH Violation %"] > 0].sort_values("pH Violation %", ascending=False)
+    fig_ph = px.bar(ph_chart_data, x=county_col, y="pH Violation %", template="plotly_white", color="pH Violation %", color_continuous_scale="Reds")
+    fig_ph.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_ph, use_container_width=True)
+
+    st.markdown("### 🚨 2. Conductivity Risk by County")
+    cond_chart_data = agg_sorted[agg_sorted["Cond Violation %"] > 0].sort_values("Cond Violation %", ascending=False)
+    fig_cond = px.bar(cond_chart_data, x=county_col, y="Cond Violation %", template="plotly_white", color="Cond Violation %", color_continuous_scale="Reds")
+    fig_cond.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_cond, use_container_width=True)
+
+    st.markdown("### 🚨 3. TDS Risk by County")
+    tds_chart_data = agg_sorted[agg_sorted["TDS Violation %"] > 0].sort_values("TDS Violation %", ascending=False)
+    fig_tds = px.bar(tds_chart_data, x=county_col, y="TDS Violation %", template="plotly_white", color="TDS Violation %", color_continuous_scale="Reds")
+    fig_tds.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_tds, use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("### 📋 Overall Highest Risk Counties")
+    valid_counties = set(ph_chart_data[county_col]) | set(cond_chart_data[county_col]) | set(tds_chart_data[county_col])
+    table_data = agg_sorted[agg_sorted[county_col].isin(valid_counties)].copy()
+    
+    st.dataframe(
+        table_data.head(10)[[county_col, "n_samples", "pH Violation %", "Cond Violation %", "TDS Violation %", "Overall Fail %"]]
+        .rename(columns={county_col: "County", "n_samples": "Total Samples", "Overall Fail %": "Avg Risk %"}),
+        use_container_width=True
+    )
+
+# ============================================================
+# STEP 2 — ROOT CAUSE ANALYSIS
+# ============================================================
+elif page == "🔍 Step 2: Root Cause Analysis":
+    st.title("🔍 Step 2: Root Cause Analysis")
+    
+    df = load_water_df()
+    ph_col, cond_col, tds_col, county_col, src_col = "ph", "conductivity?s/cm", "total_dissolved_solids", "county", "type_of_h2o"
+    
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    df[src_col] = df[src_col].apply(clean_source)
+    df_clean = df.dropna(subset=[src_col]).copy()
+
+    # --- NEW: LET USER CHOOSE WHICH RISK TO INVESTIGATE ---
+    st.markdown("### Select a Factor to Investigate")
+    risk_factor = st.selectbox("Which risk factor do you want to investigate?", ["Overall Risk", "pH Risk", "Conductivity Risk", "TDS Risk"])
+    
+    fail_agg = df_clean.dropna(subset=[county_col]).groupby(county_col).agg(
+        n_samples=(ph_col, "count"),
+        ph_fail=(ph_col, lambda x: ((x < 6.5) | (x > 8.5)).sum()),
+        cond_fail=(cond_col, lambda x: (x > 2500).sum()),
+        tds_fail=(tds_col, lambda x: (x > 1000).sum())
+    )
+    fail_agg = fail_agg[fail_agg["n_samples"] >= 5].copy()
+    
+    fail_agg["pH Rate"] = (fail_agg["ph_fail"] / fail_agg["n_samples"] * 100).fillna(0)
+    fail_agg["Cond Rate"] = (fail_agg["cond_fail"] / fail_agg["n_samples"] * 100).fillna(0)
+    fail_agg["TDS Rate"] = (fail_agg["tds_fail"] / fail_agg["n_samples"] * 100).fillna(0)
+    fail_agg["Overall Rate"] = (fail_agg["pH Rate"] + fail_agg["Cond Rate"] + fail_agg["TDS Rate"]) / 3
+
+    if risk_factor == "Overall Risk":
+        worst_counties = fail_agg.sort_values("Overall Rate", ascending=False).head(5).index.tolist()
+    elif risk_factor == "pH Risk":
+        worst_counties = fail_agg.sort_values("pH Rate", ascending=False).head(5).index.tolist()
+    elif risk_factor == "Conductivity Risk":
+        worst_counties = fail_agg.sort_values("Cond Rate", ascending=False).head(5).index.tolist()
+    else:
+        worst_counties = fail_agg.sort_values("TDS Rate", ascending=False).head(5).index.tolist()
+
+    st.markdown("---")
+    st.markdown(f"### 🗺️ Main Water Sources in Top 5 Counties for {risk_factor}")
+    
+    source_county_data = df_clean[df_clean[county_col].isin(worst_counties)]
+    fig_src = px.histogram(source_county_data, y=county_col, color=src_col, orientation="h", template="plotly_white", barmode="stack")
+    fig_src.update_layout(height=400, legend_title_text="Source Type", margin=dict(l=100))
+    st.plotly_chart(fig_src, use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("### 🔬 Detailed Source Analysis")
+    
+    target_county = st.selectbox("Select a County from the Top 5:", worst_counties)
+    county_data = df_clean[df_clean[county_col].str.contains(target_county, case=False, na=False)].copy()
+    
+    if len(county_data) > 0:
+        src_stats = county_data.groupby(src_col).agg(
+            Avg_pH=(ph_col, "mean"),
+            Avg_Cond=(cond_col, "mean"),
+            Avg_TDS=(tds_col, "mean")
+        ).reset_index()
+
+        st.markdown(f"#### 1. Conductivity in {target_county}")
+        fig_cond = px.bar(src_stats, x=src_col, y="Avg_Cond", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_cond.add_hline(y=2500, line_dash="dash", line_color="red", annotation_text="KEBS Limit")
+        fig_cond.update_layout(showlegend=False, height=300)
+        st.plotly_chart(fig_cond, use_container_width=True)
+
+        st.markdown(f"#### 2. TDS in {target_county}")
+        fig_tds = px.bar(src_stats, x=src_col, y="Avg_TDS", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_tds.add_hline(y=1000, line_dash="dash", line_color="red", annotation_text="KEBS Limit")
+        fig_tds.update_layout(showlegend=False, height=300)
+        st.plotly_chart(fig_tds, use_container_width=True)
+
+        st.markdown(f"#### 3. pH in {target_county}")
+        fig_ph = px.bar(src_stats, x=src_col, y="Avg_pH", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_ph.add_hline(y=6.5, line_dash="dash", line_color="red", annotation_text="KEBS Min")
+        fig_ph.add_hline(y=8.5, line_dash="dash", line_color="red", annotation_text="KEBS Max")
+        fig_ph.update_layout(showlegend=False, height=300)
+        st.plotly_chart(fig_ph, use_container_width=True)
+
+        worst_source = src_stats.sort_values("Avg_Cond", ascending=False).iloc[0]
+        
+        st.markdown(f"""
+        ### 🔍 Conclusion for {target_county}
+        In {target_county}, **{worst_source[src_col]}** is the primary driver of risk, with an average Conductivity of **{worst_source['Avg_Cond']:.2f} µS/cm**. Targeted treatment (like RO) must be deployed specifically for this source.
+        """)
+
+# ============================================================
+# CORRELATIONS (NEW PAGE)
+# ============================================================
+elif page == "📈 Correlations":
+    st.title("📈 Parameter Correlations")
+    st.markdown("""
+    **What we do:** Analyze how pH, Conductivity, and TDS relate to one another mathematically.
+    **Goal:** Prove whether measuring one parameter can predict another.
+    """)
+    st.markdown("---")
+
+    df = load_water_df()
+    ph_col, cond_col, tds_col = "ph", "conductivity?s/cm", "total_dissolved_solids"
+    
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    corr_df = df[[ph_col, cond_col, tds_col]].dropna(how="all")
+    corr = corr_df.corr(numeric_only=True)
+    
+    # Rename for display
+    labels = ["pH", "Conductivity", "TDS"]
+    corr.columns = labels
+    corr.index = labels
+
+    st.markdown("### 🔥 Correlation Heatmap")
+    fig_heat = px.imshow(corr, text_auto=".2f", color_continuous_scale="RdBu", zmin=-1, zmax=1, aspect="equal", template="plotly_white")
+    fig_heat.update_layout(height=500)
+    st.plotly_chart(fig_heat, use_container_width=True)
+
+    st.markdown("### 📊 Scatter Matrix")
+    st.markdown("Select two parameters to compare them directly.")
+    
+    # Use the dropna to prevent errors if rows have missing TDS
+    scatter_df = df.dropna(subset=[ph_col, cond_col, tds_col])
+    
+    fig_scat = px.scatter_matrix(
+        scatter_df, 
+        dimensions=[ph_col, cond_col, tds_col],
+        labels={"ph": "pH", "conductivity?s/cm": "Conductivity", "total_dissolved_solids": "TDS"},
+        template="plotly_white",
+        opacity=0.5,
+        height=600
+    )
+    st.plotly_chart(fig_scat, use_container_width=True)
+
+    st.markdown("""
+    ### 🔍 Findings
+    *   **Conductivity and TDS:** You will see a correlation near **+1.0**. This is a perfect positive correlation. It proves that Conductivity and TDS measure the exact same thing (dissolved salts). The government does not need to test both; testing Conductivity alone is sufficient and cheaper.
+    *   **pH vs. Salts:** You will see a near-zero correlation between pH and the other two. This means knowing the salinity of water tells you absolutely nothing about its pH. They must be tested separately.
+    """)
+
+# ============================================================
+# CONCLUSIONS & METHODOLOGY
+# ============================================================
+elif page == "💡 Conclusions":
+    st.title("💡 Conclusions & Target Interventions")
+    st.markdown("---")
+    st.success("**1. Target RO Treatment in Arid Northern Counties** (Mandera, Wajir, Garissa have high salinity).")
+    st.success("**2. Adjust pH in Limestone-Belt Counties** (Kajiado and Machakos have high pH).")
+    st.success("**3. Restrict Untreated Effluent Discharge** (Effluent consistently fails safety limits).")
+    st.success("**4. Standardize Testing Panels** (Stop missing data gaps).")
+
+elif page == "🔍 Data Explorer":
+    st.title("🔍 Data Explorer")
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+    st.dataframe(df.fillna("Not Tested").head(100), use_container_width=True)
+
+elif page == "📖 Methodology":
+    st.title("📖 Methodology")
+    st.markdown("""
+    ### How did we know the water sources per county?
+    Every row in the KEWI dataset contains a `county` column and a `type_of_h2o` column. By grouping the data by county, we reveal the infrastructure reality of that region.
+    """)
+
+st.sidebar.markdown("---")
+st.sidebar.caption("Built with Python + Streamlit")
+############################################################################
+##############################################################################
+###########################################################################"""
+Kenya Water Quality Analysis — Streamlit App
+Run: streamlit run app.py
+"""
+
+import os
+import sqlite3
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+
+st.set_page_config(
+    page_title="Kenya Water Quality Analysis",
+    page_icon="💧",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+st.sidebar.title("💧 Kenya Water Quality")
+st.sidebar.markdown("### Navigation")
+page = st.sidebar.radio(
+    "Go to:",
+    ["🏠 Overview", "🚨 Step 1: Risk Assessment", "🔍 Step 2: Root Cause Analysis", 
+     "📈 Correlations", "💡 Recommendations", "🔍 Data Explorer", "📖 Methodology"]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("**About**")
+st.sidebar.info("Analysis of 493 water samples from the Kenya Water Institute (2011–2012).")
+st.sidebar.markdown("---")
+st.sidebar.markdown("**Standards used**")
+st.sidebar.markdown("- KEBS KS 459-1\n- WHO Guidelines")
+
+# ============================================================
+# Cached data loader & Helper Functions
+# ============================================================
+DB_PATH = "data/processed/kenya_water.db"
+
+@st.cache_data
+def load_water_df():
+    conn = sqlite3.connect(DB_PATH)
+    d = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+    d.columns = [c.strip().lower().replace(" ", "_") for c in d.columns]
+    
+    # Filter out non-Kenyan locations
+    non_kenyan = ["somalia", "mogadishu", "moshitanzania", "iringa"]
+    d = d[~d["county"].astype(str).str.lower().str.strip().isin(non_kenyan)]
+    return d
+
+def clean_source(s):
+    s = str(s).lower().strip()
+    if "bore" in s or "b/hole" in s: return "Borehole"
+    elif "river" in s or "stream" in s or "surface" in s: return "River/Stream"
+    elif "shallow" in s or "well" in s: return "Shallow Well"
+    elif "pipe" in s or "tap" in s or "treated" in s or "domestic" in s: return "Piped/Treated"
+    elif "rain" in s or "roof" in s: return "Rainwater"
+    elif "effluent" in s or "waste" in s or "sewage" in s or "influent" in s: return "Effluent"
+    else: return None
+
+# ============================================================
+# PAGE 1 — OVERVIEW
+# ============================================================
+if page == "🏠 Overview":
+    st.title("💧 Kenya Water Quality Analysis")
+    st.markdown("### 493 lab samples · 2011–2012")
+    st.markdown("---")
+
+    st.markdown("## 📖 Project Overview")
+    st.markdown("""
+    **Have you ever wondered if the water coming out of your tap is actually safe to drink?**
+
+    In Kenya, having access to a water source doesn't always mean the water is safe. A household might be connected to a piped system or have a borehole nearby, but the water itself could contain dangerous levels of salts, minerals, or be too acidic. 
+
+    This project dives deep into **493 water samples** collected by the **Kenya Water Institute (KEWI)** across the country between 2011 and 2012. We tested these samples against the national safety limits set by the **Kenya Bureau of Standards (KEBS)** to see exactly what is in the water. 
+
+    ### 📏 The National Safety Rules (KEBS Standards)
+    *   **pH:** Must be between **6.50 and 8.50**. (If it's too low, the water is acidic and can corrode pipes; if it's too high, it's bitter).
+    *   **Conductivity:** Must be **≤ 2500.00 µS/cm**. (Measures how much salt is dissolved in it).
+    *   **Total Dissolved Solids (TDS):** Must be **≤ 1000.00 mg/L**. (The weight of all microscopic minerals floating in the water).
+    """)
+
+    st.markdown("---")
+    st.markdown("## ❗ Problem Statement")
+    st.markdown("""
+    **The problem? We are drinking water blindly.**
+
+    *   **Invisible Threats:** Contaminated water doesn't look dirty. You can't see high salt levels or dangerous acidity with the naked eye.
+    *   **The Testing Gap:** Only a tiny fraction of Kenya's 47 counties are continuously testing their water. Where testing does happen, the data is often locked away in spreadsheets.
+    *   **Real-World Consequences:** Drinking water with excessive salts can lead to long-term health issues like hypertension, while corrosive water damages the pipes meant to deliver it.
+    """)
+
+# ============================================================
+# STEP 1 — RISK ASSESSMENT
+# ============================================================
+elif page == "🚨 Step 1: Risk Assessment":
+    st.title("🚨 Step 1: Risk Assessment")
+    st.markdown("""
+    **What we do:** Evaluate how many samples in each county violate KEBS/WHO standards.
+    **Goal:** Rank counties from Highest Risk to Lowest Risk across all three factors.
+    """)
+    
+    st.info("""
+    **KEBS Standards:** pH (6.50 – 8.50) | Conductivity (≤ 2500) | TDS (≤ 1000)
+    """)
+    st.markdown("---")
+
+    df = load_water_df()
+    ph_col, cond_col, tds_col, county_col = "ph", "conductivity?s/cm", "total_dissolved_solids", "county"
+
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    agg = df.dropna(subset=[county_col]).groupby(county_col).agg(
+        n_samples=(ph_col, "count"),
+        ph_fail=(ph_col, lambda x: ((x < 6.5) | (x > 8.5)).sum()),
+        cond_fail=(cond_col, lambda x: (x > 2500).sum()),
+        tds_fail=(tds_col, lambda x: (x > 1000).sum())
+    )
+    
+    agg = agg[agg["n_samples"] >= 5].copy()
+    agg["pH Violation %"] = (agg["ph_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["Cond Violation %"] = (agg["cond_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["TDS Violation %"] = (agg["tds_fail"] / agg["n_samples"] * 100).fillna(0).round(2)
+    agg["Overall Fail %"] = (agg["pH Violation %"] + agg["Cond Violation %"] + agg["TDS Violation %"]) / 3
+    
+    agg_sorted = agg.sort_values("Overall Fail %", ascending=False).reset_index()
+
+    st.markdown("### 🚨 1. pH Risk by County")
+    ph_chart_data = agg_sorted[agg_sorted["pH Violation %"] > 0].sort_values("pH Violation %", ascending=False)
+    fig_ph = px.bar(ph_chart_data, x=county_col, y="pH Violation %", template="plotly_white", color="pH Violation %", color_continuous_scale="Reds")
+    fig_ph.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_ph, use_container_width=True)
+
+    st.markdown("### 🚨 2. Conductivity Risk by County")
+    cond_chart_data = agg_sorted[agg_sorted["Cond Violation %"] > 0].sort_values("Cond Violation %", ascending=False)
+    fig_cond = px.bar(cond_chart_data, x=county_col, y="Cond Violation %", template="plotly_white", color="Cond Violation %", color_continuous_scale="Reds")
+    fig_cond.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_cond, use_container_width=True)
+
+    st.markdown("### 🚨 3. TDS Risk by County")
+    tds_chart_data = agg_sorted[agg_sorted["TDS Violation %"] > 0].sort_values("TDS Violation %", ascending=False)
+    fig_tds = px.bar(tds_chart_data, x=county_col, y="TDS Violation %", template="plotly_white", color="TDS Violation %", color_continuous_scale="Reds")
+    fig_tds.update_layout(xaxis_tickangle=-45, height=350, coloraxis_showscale=False)
+    st.plotly_chart(fig_tds, use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("### 📋 Overall Highest Risk Counties")
+    valid_counties = set(ph_chart_data[county_col]) | set(cond_chart_data[county_col]) | set(tds_chart_data[county_col])
+    table_data = agg_sorted[agg_sorted[county_col].isin(valid_counties)].copy()
+    
+    st.dataframe(
+        table_data.head(10)[[county_col, "n_samples", "pH Violation %", "Cond Violation %", "TDS Violation %", "Overall Fail %"]]
+        .rename(columns={county_col: "County", "n_samples": "Total Samples", "Overall Fail %": "Avg Risk %"}),
+        use_container_width=True
+    )
+
+# ============================================================
+# STEP 2 — ROOT CAUSE ANALYSIS
+# ============================================================
+elif page == "🔍 Step 2: Root Cause Analysis":
+    st.title("🔍 Step 2: Root Cause Analysis")
+    
+    df = load_water_df()
+    ph_col, cond_col, tds_col, county_col, src_col = "ph", "conductivity?s/cm", "total_dissolved_solids", "county", "type_of_h2o"
+    
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    df[src_col] = df[src_col].apply(clean_source)
+    df_clean = df.dropna(subset=[src_col]).copy()
+
+    st.markdown("### Select a Factor to Investigate")
+    risk_factor = st.selectbox("Which risk factor do you want to investigate?", ["Overall Risk", "pH Risk", "Conductivity Risk", "TDS Risk"])
+    
+    fail_agg = df_clean.dropna(subset=[county_col]).groupby(county_col).agg(
+        n_samples=(ph_col, "count"),
+        ph_fail=(ph_col, lambda x: ((x < 6.5) | (x > 8.5)).sum()),
+        cond_fail=(cond_col, lambda x: (x > 2500).sum()),
+        tds_fail=(tds_col, lambda x: (x > 1000).sum())
+    )
+    fail_agg = fail_agg[fail_agg["n_samples"] >= 5].copy()
+    
+    fail_agg["pH Rate"] = (fail_agg["ph_fail"] / fail_agg["n_samples"] * 100).fillna(0)
+    fail_agg["Cond Rate"] = (fail_agg["cond_fail"] / fail_agg["n_samples"] * 100).fillna(0)
+    fail_agg["TDS Rate"] = (fail_agg["tds_fail"] / fail_agg["n_samples"] * 100).fillna(0)
+    fail_agg["Overall Rate"] = (fail_agg["pH Rate"] + fail_agg["Cond Rate"] + fail_agg["TDS Rate"]) / 3
+
+    if risk_factor == "Overall Risk":
+        worst_counties = fail_agg.sort_values("Overall Rate", ascending=False).head(5).index.tolist()
+    elif risk_factor == "pH Risk":
+        worst_counties = fail_agg.sort_values("pH Rate", ascending=False).head(5).index.tolist()
+    elif risk_factor == "Conductivity Risk":
+        worst_counties = fail_agg.sort_values("Cond Rate", ascending=False).head(5).index.tolist()
+    else:
+        worst_counties = fail_agg.sort_values("TDS Rate", ascending=False).head(5).index.tolist()
+
+    st.markdown("---")
+    st.markdown(f"### 🗺️ Main Water Sources in Top 5 Counties for {risk_factor}")
+    
+    source_county_data = df_clean[df_clean[county_col].isin(worst_counties)]
+    fig_src = px.histogram(source_county_data, y=county_col, color=src_col, orientation="h", template="plotly_white", barmode="stack")
+    fig_src.update_layout(height=400, legend_title_text="Source Type", margin=dict(l=100))
+    st.plotly_chart(fig_src, use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("### 🔬 Detailed Source Analysis")
+    
+    target_county = st.selectbox("Select a County from the Top 5:", worst_counties)
+    county_data = df_clean[df_clean[county_col].str.contains(target_county, case=False, na=False)].copy()
+    
+    if len(county_data) > 0:
+        src_stats = county_data.groupby(src_col).agg(
+            Avg_pH=(ph_col, "mean"),
+            Avg_Cond=(cond_col, "mean"),
+            Avg_TDS=(tds_col, "mean")
+        ).reset_index()
+
+        st.markdown(f"#### 1. Conductivity in {target_county}")
+        fig_cond = px.bar(src_stats, x=src_col, y="Avg_Cond", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_cond.add_hline(y=2500, line_dash="dash", line_color="red", annotation_text="KEBS Limit")
+        fig_cond.update_layout(showlegend=False, height=300)
+        st.plotly_chart(fig_cond, use_container_width=True)
+
+        st.markdown(f"#### 2. TDS in {target_county}")
+        fig_tds = px.bar(src_stats, x=src_col, y="Avg_TDS", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_tds.add_hline(y=1000, line_dash="dash", line_color="red", annotation_text="KEBS Limit")
+        fig_tds.update_layout(showlegend=False, height=300)
+        st.plotly_chart(fig_tds, use_container_width=True)
+
+        st.markdown(f"#### 3. pH in {target_county}")
+        fig_ph = px.bar(src_stats, x=src_col, y="Avg_pH", color=src_col, text_auto=".2f", template="plotly_white")
+        fig_ph.add_hline(y=6.5, line_dash="dash", line_color="red", annotation_text="KEBS Min")
+        fig_ph.add_hline(y=8.5, line_dash="dash", line_color="red", annotation_text="KEBS Max")
+        fig_ph.update_layout(showlegend=False, height=300)
+        st.plotly_chart(fig_ph, use_container_width=True)
+
+        worst_source = src_stats.sort_values("Avg_Cond", ascending=False).iloc[0]
+        
+        st.markdown(f"""
+        ### 🔍 Conclusion for {target_county}
+        In {target_county}, **{worst_source[src_col]}** is the primary driver of risk, with an average Conductivity of **{worst_source['Avg_Cond']:.2f} µS/cm**. Targeted treatment (like RO) must be deployed specifically for this source.
+        """)
+
+# ============================================================
+# CORRELATIONS
+# ============================================================
+elif page == "📈 Correlations":
+    st.title("📈 Parameter Correlations")
+    st.markdown("""
+    **What we do:** Analyze how pH, Conductivity, and TDS relate to one another mathematically.
+    **Goal:** Prove whether measuring one parameter can predict another.
+    """)
+    st.markdown("---")
+
+    df = load_water_df()
+    ph_col, cond_col, tds_col = "ph", "conductivity?s/cm", "total_dissolved_solids"
+    
+    for c in [ph_col, cond_col, tds_col]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
+    corr_df = df[[ph_col, cond_col, tds_col]].dropna(how="all")
+    corr = corr_df.corr(numeric_only=True)
+    
+    labels = ["pH", "Conductivity", "TDS"]
+    corr.columns = labels
+    corr.index = labels
+
+    st.markdown("### 🔥 Correlation Heatmap")
+    fig_heat = px.imshow(corr, text_auto=".2f", color_continuous_scale="RdBu", zmin=-1, zmax=1, aspect="equal", template="plotly_white")
+    fig_heat.update_layout(height=500)
+    st.plotly_chart(fig_heat, use_container_width=True)
+
+    st.markdown("""
+    ### 🔍 Findings
+    *   **Conductivity and TDS:** You will see a correlation near **+1.0**. This is a perfect positive correlation. It proves that Conductivity and TDS measure the exact same thing (dissolved salts). The government does not need to test both; testing Conductivity alone is sufficient and cheaper.
+    *   **pH vs. Salts:** You will see a near-zero correlation between pH and the other two. This means knowing the salinity of water tells you absolutely nothing about its pH. They must be tested separately.
+    """)
+
+# ============================================================
+# RECOMMENDATIONS (Previously Conclusions)
+# ============================================================
+elif page == "💡 Recommendations":
+    st.title("💡 Recommendations & Future Goals")
+    st.markdown("Based on the data analysis from Step 1, Step 2, and the Correlations, here are the actionable recommendations for the Ministry of Water and the government.")
+    st.markdown("---")
+
+    st.markdown("## 🎯 Actionable Recommendations")
+
+    st.success("""
+    **1. Target Reverse Osmosis (RO) Treatment in Arid Northern Counties**
+    **The Finding:** Conductivity and TDS levels in Mandera, Wajir, and Garissa are dangerously high, exceeding the KEBS limit of 2500 µS/cm.
+    **The Recommendation:** The Ministry must prioritize installing RO desalination plants specifically in these regions to filter out the excessive natural salts before the water reaches households.
+    """)
+
+    st.success("""
+    **2. Implement pH Adjustment in Limestone-Belt Counties**
+    **The Finding:** Counties like Kajiado and Machakos show elevated pH levels (above 8.5) because the water is dissolving alkaline minerals from limestone-rich rocks.
+    **The Recommendation:** Water treatment facilities here must implement a pH adjustment step (using safe acidification) to neutralize the water and protect both public health and local pipe infrastructure from corrosion.
+    """)
+
+    st.success("""
+    **3. Restrict Untreated Effluent Discharge**
+    **The Finding:** The "By Source" analysis consistently proves that Effluent has the highest Conductivity and TDS, acting as the primary driver of bad water quality where it is present.
+    **The Recommendation:** The government and NEMA must enforce stricter penalties on factories and sewage plants releasing untreated water into rivers or boreholes used by local communities.
+    """)
+
+    st.success("""
+    **4. Standardize Testing Panels & Stop Missing Data**
+    **The Finding:** The data shows inconsistent testing (many counties had no TDS data, leaving gaps in our analysis).
+    **The Recommendation:** The Ministry should mandate a standardized national testing panel for all 47 counties (at minimum: pH, Conductivity, TDS, and E. coli) and require quarterly reporting to a centralized database to ensure no region is overlooked.
+    """)
+
+    st.markdown("---")
+    st.markdown("## 🚀 Future Goals & Further Analysis")
+
+    st.info("""
+    While this project focuses on chemical parameters (pH, Conductivity, TDS), a complete water safety profile requires expanding the scope. Future goals include:
+    
+    **1. Incorporate External Biological & Chemical Factors:**
+    *   **Heavy Metals (e.g., Lead & Arsenic):** Analyzing heavy metals is crucial. Unlike salts, heavy metals are highly toxic even in microscopic amounts and cause irreversible neurological damage. Water in regions with mining or industrial runoff should be urgently tested for these.
+    *   **Microbial Pathogens (e.g., E. coli & Coliform):** Chemical tests don't show if sewage is in the water. Testing for microbial contamination is the most direct way to measure immediate health risks and prevent waterborne diseases like cholera.
+    *   **Fluoride:** Certain geological regions in Kenya (like the Rift Valley) have dangerously high natural fluoride levels. This should be mapped to prevent dental and skeletal fluorosis.
+    *   **Turbidity:** High turbidity (cloudiness) can shield bacteria from chlorine disinfection and should be analyzed alongside biological factors.
+    
+    **2. Infrastructure and Socioeconomic Analysis:**
+    *   Map the distance from water sources to the nearest treatment plants.
+    *   Analyze the economic capacity of different counties to afford and maintain advanced filtration systems.
+    """)
+
+# ============================================================
+# DATA EXPLORER & METHODOLOGY
+# ============================================================
+elif page == "🔍 Data Explorer":
+    st.title("🔍 Data Explorer")
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql_query("SELECT * FROM kewi_water_tests", conn)
+    conn.close()
+    st.dataframe(df.fillna("Not Tested").head(100), use_container_width=True)
+
+elif page == "📖 Methodology":
+    st.title("📖 Methodology")
+    st.markdown("""
+    ### How did we know the water sources per county?
+    Every row in the KEWI dataset contains a `county` column and a `type_of_h2o` column. By grouping the data by county, we reveal the infrastructure reality of that region.
+    """)
+
 st.sidebar.markdown("---")
 st.sidebar.caption("Built with Python + Streamlit")
