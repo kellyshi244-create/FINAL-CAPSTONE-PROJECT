@@ -51,11 +51,11 @@ def load_water_df():
 
 def clean_source(s):
     s = str(s).lower().strip()
+    
+    # ONLY KEEPING THE 4 MAIN SOURCES (Removed Rain and River)
     if "bore" in s or "b/hole" in s: return "Borehole"
-    elif "river" in s or "stream" in s or "surface" in s: return "River/Stream"
     elif "shallow" in s or "well" in s: return "Shallow Well"
     elif "pipe" in s or "tap" in s or "treated" in s or "domestic" in s: return "Piped/Treated"
-    elif "rain" in s or "roof" in s: return "Rainwater"
     elif "effluent" in s or "waste" in s or "sewage" in s or "influent" in s: return "Effluent"
     else: return None
 
@@ -69,6 +69,7 @@ if page == "🏠 Overview":
 
     st.markdown("## 📖 Project Overview")
     st.markdown("""
+    **Have you ever wondered if the water coming out of your tap is actually safe to drink?**
 
     In Kenya, having access to a water source doesn't always mean the water is safe. A household might be connected to a piped system or have a borehole nearby, but the water itself could contain dangerous levels of salts, minerals, or be too acidic. 
 
@@ -97,7 +98,7 @@ if page == "🏠 Overview":
     
     **Specific:**
     1. Examine the distribution of each water quality parameter (pH, conductivity, TDS).
-    2. Compare water quality across different water source types (boreholes, rivers, etc.).
+    2. Compare water quality across different water source types (boreholes, wells, etc.).
     3. Identify county-level patterns in water quality.
     4. Analyze correlations between parameters to see if testing one can predict another.
     """)
@@ -106,7 +107,7 @@ if page == "🏠 Overview":
     st.markdown("## ❓ Research Questions")
     st.markdown("""
     1. How are pH, conductivity, and TDS distributed across tested samples?
-    2. How does water quality vary by source type (borehole, rain, effluent)?
+    2. How does water quality vary by source type?
     3. Which counties show unusual patterns in pH or conductivity?
     4. Do water quality parameters correlate — can one predict another?
     """)
