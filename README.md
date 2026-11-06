@@ -9,27 +9,34 @@ A comprehensive data analysis project evaluating Kenya's national water access, 
 
 In Kenya, having access to a water source doesn't always mean the water is safe. A household might be connected to a piped system or have a borehole nearby, but the water itself could contain dangerous levels of salts, minerals, or be too acidic. 
 
-This project dives deep into **493 water samples** collected by the **Kenya Water Institute (KEWI)** across the country between 2011 and 2012. We tested these samples against the national safety limits set by the **Kenya Bureau of Standards (KEBS)** to see exactly what is in the water. 
+This project dives deep into **493 water samples** collected by the **Kenya Water Institute (KEWI)** across the country between 2011 and 2012. The samples were tested against the national safety limits set by the **Kenya Bureau of Standards (KEBS)** to see exactly what is in the water. 
 
 The main finding: **Access is improving nationwide, but the chemical quality of the water is highly variable and geographically uneven.**
 
 ### 📏 The National Safety Rules (KEBS Standards)
-To judge if water is safe, we compare it against these three main chemical rules:
-*   **pH:** Must be between **6.50 and 8.50**. (If it's too low, the water is acidic and can corrode pipes; if it's too high, it's bitter).
+To judge if water is safe, we compare it against these three main chemical rules:ph, Conductivity and Total Dissolved Solids
+*   **pH:** This is basically the measure of acidity or alkalinity of water on a scale of 1 to 14 ie:
+1-6=acidic water
+7=netral water
+8-14=basic/alkaline water
+*   **pH:** Must be between **6.50 and 8.50**. (If it's too low, the water is 
+acidic and can corrode pipes; if it's too high, it's bitter).
+
+*   **Conductivity:**
+Water conductivity measures how easily electricity flows through water. Water conductivity increases with increase in the amount of minerals and salts in water therefore pure water has poor water conductivity.
 *   **Conductivity:** Must be **≤ 2500.00 µS/cm**. (Measures how much salt is dissolved in it).
+
+*   **Total Dissolved Solids (TDS)** 
+Total Dissolved solids is the total amount of tiny bits of minerals, salts, and metals dissolved in the water
 *   **Total Dissolved Solids (TDS):** Must be **≤ 1000.00 mg/L**. (The weight of all microscopic minerals floating in the water).
 
 ---
 
 ## ❗ Problem Statement
 
-**The problem? We are drinking water blindly.**
-
 *   **Invisible Threats:** Contaminated water doesn't look dirty. You can't see high salt levels or dangerous acidity with the naked eye.
-*   **The Testing Gap:** Only a tiny fraction of Kenya's 47 counties are continuously testing their water. Where testing does happen, the data is often locked away in spreadsheets and not accessible to the public.
-*   **Real-World Consequences:** Drinking water with excessive salts can lead to long-term health issues like hypertension, while corrosive water damages the pipes meant to deliver it. 
-
-This app is designed to take the mystery out of Kenya's water. We transform KEWI's raw lab data into interactive charts so policymakers, researchers, and the public can finally see the truth: **Exactly which counties have dangerous water, and why.**
+*   **The Testing Gap:** Only a tiny fraction of Kenya's 47 counties are continuously testing their water. 
+*   **Health Distress:** Drinking water with excessive salts can lead to long-term health issues like hypertension, while corrosive water damages the pipes meant to deliver it. 
 
 ---
 
@@ -68,11 +75,7 @@ This app is designed to take the mystery out of Kenya's water. We transform KEWI
 
 | Source | What It Provides | Coverage | Contribution |
 |---|---|---|---|
-| **World Bank Open Data** | National water, sanitation, and freshwater indicators | 2000–2024 | National baseline trends |
-| **HDX (UN OCHA)** | Athi River basin coverage (population, served, unserved) | 2011–2014 | Regional case study |
 | **Kenya Water Institute (KEWI)** | 493 water sample lab tests (pH, conductivity, TDS) | 2011–2012 | Water quality analysis |
-
-*Note: The datasets are analyzed separately due to differing granularities (national vs. regional vs. per-sample) and combined in the final conclusions.*
 
 ---
 
@@ -86,20 +89,6 @@ This app is designed to take the mystery out of Kenya's water. We transform KEWI
 | **Plotly Express / Graph Objects** | Interactive chart generation |
 | **Streamlit** | Interactive web application framework |
 | **Git & GitHub** | Version control and hosting |
-
----
-
-## 📱 App Structure (Streamlit)
-
-The interactive app is broken down into 5 main sections to guide the user through the analysis:
-
-1.  **🏠 Overview:** Defines the problem, KEBS standards, and the objectives of the research.
-2.  **🚨 Step 1: Risk Assessment:** Ranks all 47 counties based on the percentage of water samples that fail KEBS standards. Counties are ranked from highest risk to lowest risk.
-3.  **🔍 Step 2: Root Cause Analysis:** Investigates the Top 5 worst-performing counties. It breaks down their water sources (boreholes, rivers, etc.) to prove exactly which source is driving the high risk.
-4.  **📈 Correlations:** A heatmap proving that Conductivity and TDS are perfectly correlated (measuring the same thing), while pH is completely independent.
-5.  **💡 Recommendations:** User-friendly, actionable steps for the government, including building RO plants in the North, fixing pH in limestone areas, and stopping factory wastewater dumping. It also outlines future goals for analyzing heavy metals and bacteria.
-
----
 
 ## 🔬 Methodology
 
@@ -122,23 +111,3 @@ The interactive app is broken down into 5 main sections to guide the user throug
 
 **Phase 5 — Visualization**
 - Generated interactive Plotly charts and deployed the entire analysis as a Streamlit app.
-
----
-
-## 🚀 Future Goals
-
-While this project focuses on chemical parameters (pH, Conductivity, TDS), a complete water safety profile requires expanding the scope. Future goals include:
-*   **Heavy Metals:** Testing for Lead, Arsenic, and Mercury (critical for regions with mining or industrial runoff).
-*   **Microbial Pathogens:** Testing for E. coli and Coliform to measure immediate biological health risks.
-*   **Fluoride:** Mapping natural fluoride levels, which are dangerously high in parts of the Rift Valley.
-*   **Infrastructure Analysis:** Mapping the distance from water sources to the nearest treatment plants and analyzing county economic capacities to maintain them.
-
----
-
-## 🏃‍♂️ How to Run the App Locally
-
-1. Clone this repository.
-2. Install the required packages: `pip install streamlit pandas plotly`
-3. Ensure the database is located at `data/processed/kenya_water.db`.
-4. Run the app: `streamlit run app.py`
-
